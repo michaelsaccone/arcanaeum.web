@@ -51,7 +51,7 @@ const items = [
 ];
 
 function printCiao() {
-  console.log('CIAO')
+  console.log('We vecchio')
 }
 const handleReorder = (event: CustomEvent) => {
   // The `from` and `to` properties contain the index of the item
