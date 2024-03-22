@@ -3,6 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
 import SignUp from "@/views/SignUp.vue";
 import CreateJoinFamily from "@/views/CreateJoinFamily.vue";
+import IntroSlides from "@/views/IntroSlides.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -38,6 +39,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/tabs/Settings.vue')
       }
     ]
+  },
+  {
+    path: "/intro",
+    component: IntroSlides
   }
 ]
 
