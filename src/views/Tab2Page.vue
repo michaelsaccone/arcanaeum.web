@@ -9,7 +9,8 @@
       <ion-reorder-group :disabled="false" @ionItemReorder="handleReorder($event)">
           <ion-item :key="i" v-for="i in items">
             <ion-thumbnail slot="start">
-              <ion-icon style="width: 100%; height: 100%" :icon="bookSharp"></ion-icon>
+              <ion-img src="/resources/libroBG.png" >
+              </ion-img>
             </ion-thumbnail>
             <ion-label>
               <h3>{{ i }}</h3>
@@ -34,13 +35,14 @@
 </template>
 
 <script setup lang="ts">
-import { IonThumbnail, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList, IonReorder, IonReorderGroup } from '@ionic/vue';
+import { IonThumbnail, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList, IonReorder, IonReorderGroup, IonImg } from '@ionic/vue';
 import {bookSharp} from "ionicons/icons";
 const items = [
   "Ciao",
   "ciao 2",
   "cherubini routing",
-  "Carleschi"
+  "Carleschi",
+  "stringa"
 ];
 const handleReorder = (event: CustomEvent) => {
   // The `from` and `to` properties contain the index of the item
