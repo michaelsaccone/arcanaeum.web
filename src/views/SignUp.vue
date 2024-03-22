@@ -1,100 +1,172 @@
 <template>
   <ion-page>
-    <div class="overlay">
-      <ion-header>
-        <ion-toolbar>
-          <ion-title><center>Login</center></ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content :fullscreen="true">
-        <div class="form-container">
-          <ion-item>
-            <div class="testo">
-              <ion-label class="block-label">Nome</ion-label>
-            </div>
-            <div class="input-box">
-              <ion-input class="nome"></ion-input>
-            </div>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title><center>Login</center></ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <div class="login-logo">
+        <img src="./../../public/assets/img/appicon.svg" alt="Ionic logo" />
+      </div>
+
+      <form novalidate @submit.prevent="onLogin">
+        <ion-list>
+          <ion-item class="input-box">
+            <ion-input
+                label="Nome"
+                labelPlacement="stacked"
+                v-model="username"
+                name="username"
+                type="text"
+                :spellcheck="false"
+                autocapitalize="off"
+                required
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <div class="testo">
-              <ion-label class="block-label">Cognome</ion-label>
-            </div>
-            <div class="input-box">
-              <ion-input class="cognome"></ion-input>
-            </div>
+
+          <ion-item class="input-box">
+            <ion-input
+                label="Cognome"
+                labelPlacement="stacked"
+                v-model="cognome"
+                name="username"
+                type="text"
+                :spellcheck="false"
+                autocapitalize="off"
+                required
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <div class="testo">
-              <ion-label class="block-label">Email</ion-label>
-            </div>
-            <div class="input-box">
-              <ion-input class="email"></ion-input>
-            </div>
+
+          <ion-item class="input-box">
+            <ion-input
+                label="Email"
+                labelPlacement="stacked"
+                v-model="email"
+                name="username"
+                type="text"
+                :spellcheck="false"
+                autocapitalize="off"
+                required
+            ></ion-input>
           </ion-item>
-          <ion-item>
-            <div class="testo">
-              <ion-label class="block-label">Password</ion-label>
-            </div>
-            <div class="input-box">
-              <ion-input type="password"></ion-input>
-            </div>
+
+          <ion-item class="input-box">
+            <ion-input
+                labelPlacement="stacked"
+                label="Password"
+                v-model="password"
+                name="password"
+                type="password"
+                required
+            ></ion-input>
           </ion-item>
-          <br>
-          <ion-button expand="full" >Login</ion-button>
-        </div>
-      </ion-content>
-    </div>
+        </ion-list>
+
+        <ion-row responsive-sm class="ion-padding">
+          <ion-col>
+            <ion-button :disabled="!canSubmit" type="submit" expand="block"
+            >Login</ion-button
+            >
+          </ion-col>
+          <ion-col>
+            <ion-button
+                :disabled="!canSubmit"
+                @click="onSignup"
+                color="light"
+                expand="block"
+            >Signup</ion-button
+            >
+          </ion-col>
+        </ion-row>
+      </form>
+      <ion-toast
+          :is-open="showToast"
+          :message="toastMessage"
+          :duration="2000"
+      ></ion-toast>
+    </ion-content>
   </ion-page>
 </template>
 
+<style scoped>
+.login-logo {
+  padding: 20px 0;
+  min-height: 200px;
+  text-align: center;
+}
+
+.login-logo img {
+  max-width: 150px;
+}
+
+.list {
+  margin-bottom: 0;
+}
+</style>
+
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
+import { computed, ref } from "vue";
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonMenuButton,
+  IonButton,
+  IonContent,
+  IonList,
+  IonItem,
+  IonTitle,
+  IonRow,
+  IonCol,
+  IonInput,
+  IonToast,
+} from "@ionic/vue";
+
+const username = ref("");
+const cognome = ref("");
+const email = ref("");
+const password = ref("");
+const submitted = ref(false);
+
+const usernameValid = true;
+const passwordValid = true;
+
+const showToast = ref(false);
+const toastMessage = ref("");
+
+const canSubmit = computed(
+    () => username.value.trim() !== "" && password.value.trim() !== ""
+);
+
+const onLogin = () => {
+  submitted.value = true;
+  if (usernameValid && passwordValid) {
+  }
+};
+
+const onSignup = () => {
+  toastMessage.value = "Successfully logged in!";
+
+  showToast.value = true;
+
+
+  username.value = "";
+  cognome.value = "";
+  email.value = "";
+  password.value = "";
+};
+
+
 </script>
 
-<style scoped>
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.form-container {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
-  margin: 90px auto;
-  padding: 20px;
-  background-color: #242424;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-
-.block-label {
-  display: block;
-}
-
-ion-title {
-  color: white;
-  font-weight: bold;
-}
-
-.testo {
-  width: 30%;
-  margin-right: 60px;
-  font-weight: bold;
-}
-
+<style>
 .input-box {
-  width: 70%;
-  right: 0;
-  border: 1px solid #707070;
-  width: fit-content;
+  max-width: 700px;
 }
 </style>
