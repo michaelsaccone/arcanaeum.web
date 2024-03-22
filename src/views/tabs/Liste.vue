@@ -30,13 +30,18 @@
           </ion-item>
       </ion-reorder-group>
 
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button @click="printCiao" >
+          <ion-icon :icon="add" ></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import { IonThumbnail, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList, IonReorder, IonReorderGroup, IonImg } from '@ionic/vue';
-import {bookSharp} from "ionicons/icons";
+import {add} from "ionicons/icons";
 const items = [
   "Ciao",
   "ciao 2",
@@ -44,6 +49,10 @@ const items = [
   "Carleschi",
   "stringa"
 ];
+
+function printCiao() {
+  console.log('CIAO')
+}
 const handleReorder = (event: CustomEvent) => {
   // The `from` and `to` properties contain the index of the item
   // when the drag started and ended, respectively
