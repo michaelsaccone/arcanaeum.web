@@ -1,0 +1,7 @@
+{
+  "name": "Arcanaeum",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
