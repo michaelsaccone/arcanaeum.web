@@ -11,7 +11,7 @@
 
     <ion-content class="ion-padding">
       <div class="login-logo">
-        <img src="/resources/splash.png" alt="Ionic logo" />
+        <img src="/resources/logoArcaneum.jpg" alt="Ionic logo" />
       </div>
 
       <form novalidate @submit.prevent="onLogin">
