@@ -1,105 +1,145 @@
 <template>
-  <ion-page>
-    <ion-content>
-      <ion-header class="ion-no-border">
-        <ion-toolbar sticky>
-          <ion-title>Toolbar</ion-title>
-        </ion-toolbar>
-        <ion-toolbar>
-          <ion-searchbar></ion-searchbar>
-        </ion-toolbar>
-      </ion-header>
-      <ion-text>
-        <h2>In Evidenza</h2>
-      </ion-text>
-      <ion-list>
-        <ion-card v-for="(item, index) in items" :key="index">
-          <ion-card-header>
-            <ion-card-title>{{ item }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-avatar slot="start">
-              <img :src="'https://picsum.photos/80/80?random=' + index" alt="avatar"/>
-            </ion-avatar>
-            <ion-label>{{ item }}</ion-label>
-          </ion-card-content>
-          <ion-button fill="clear">
-            <ion-icon :icon="bookmarkOutline()" aria-hidden="true"/>
-          </ion-button>
-          <ion-button fill="clear">
-            <ion-icon :icon="closeOutline()" aria-hidden="true"/>
-          </ion-button>
-        </ion-card>
-      </ion-list>
-      <ion-infinite-scroll @ionInfinite="ionInfinite">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-    </ion-content>
-  </ion-page>
+  <ion-header>
+    <ion-toolbar>
+      <div style="align-content: center">
+        <ion-title style="text-align: left">ARCANAEUM personale</ion-title>
+        <ion-icon :icon="bookSharp()"></ion-icon>
+
+      </div>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-card v-for="(item, index) in items" :key="index">
+        <ion-card-header>
+          <ion-card-title>Card Title {{ index + 1 }}</ion-card-title>
+          <ion-card-subtitle>Card Subtitle {{ index + 1 }}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          Here's a small text description for the card content. Nothing more, nothing less.
+        </ion-card-content>
+
+        <ion-button fill="clear">Mostra libro</ion-button>
+      </ion-card>
+    </ion-list>
+    <ion-infinite-scroll>
+      <div class="infinite-scroll-content">
+        <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px"
+            y="0px"
+            viewBox="0 0 100 100"
+            enable-background="new 0 0 100 100"
+            xml:space="preserve"
+        >
+          <circle fill="none" stroke="#1b6dff" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50" r="48" />
+          <line
+              fill="none"
+              stroke-linecap="round"
+              stroke="#1b6dff"
+              stroke-width="4"
+              stroke-miterlimit="10"
+              x1="50"
+              y1="50"
+              x2="85"
+              y2="50.5"
+          >
+            <animateTransform
+                attributeName="transform"
+                dur="2s"
+                type="rotate"
+                from="0 50 50"
+                to="360 50 50"
+                repeatCount="indefinite"
+            />
+          </line>
+          <line
+              fill="none"
+              stroke-linecap="round"
+              stroke="#1b6dff"
+              stroke-width="4"
+              stroke-miterlimit="10"
+              x1="50"
+              y1="50"
+              x2="49.5"
+              y2="74"
+          >
+            <animateTransform
+                attributeName="transform"
+                dur="15s"
+                type="rotate"
+                from="0 50 50"
+                to="360 50 50"
+                repeatCount="indefinite"
+            />
+          </line>
+        </svg>
+      </div>
+    </ion-infinite-scroll>
+    <div style="height: 20px;"></div>
+  </ion-content>
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent, IonHeader, IonToolbar, IonTitle, IonSearchbar, IonText, IonList, IonCard, IonAvatar, IonLabel, IonButton, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonImg  } from '@ionic/vue';
-import {defineComponent, reactive} from 'vue';
-import {bookmarkOutline, closeOutline} from 'ionicons/icons';
+import { IonContent, IonInfiniteScroll, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSearchbar, IonHeader, IonTitle, IonToolbar } from '@ionic/vue';
+import { defineComponent, reactive } from 'vue';
+import {bookOutline, bookSharp, personOutline} from "ionicons/icons";
 
 export default defineComponent({
   methods: {
-    closeOutline() {
-      return closeOutline
+    bookSharp() {
+      return bookSharp
     },
-    bookmarkOutline() {
-      return bookmarkOutline
+    bookOutline() {
+      return bookOutline
+    },
+    personOutline() {
+      return personOutline
     },
   },
   components: {
-    IonPage,
-    IonIcon,
     IonContent,
-    IonText,
     IonInfiniteScroll,
-    IonInfiniteScrollContent,
     IonList,
-    IonButton,
     IonCard,
     IonCardHeader,
     IonCardTitle,
     IonCardSubtitle,
     IonCardContent,
-    IonAvatar,
-    IonImg,
-    IonLabel,
-    IonHeader,
+    IonButton,
     IonSearchbar,
+    IonHeader,
     IonTitle,
-    IonToolbar,
+    IonToolbar
   },
   setup() {
     const items = reactive([]);
 
-    const generateItems = () => {
-      const count = items.length + 1;
-      for (let i = 0; i < 20; i++) {
-        items.push(`Item ${count + i}`);
-      }
-    };
+    for (let i = 1; i < 11; i++) {
+      items.push(`Item ${i}`);
+    }
 
-    const ionInfinite = (ev: InfiniteScrollCustomEvent) => {
-      generateItems();
-      setTimeout(() => ev.target.complete(), 500);
-    };
-
-    generateItems();
-
-    return {ionInfinite, items};
+    return { items };
   },
 });
 </script>
 
-<style scoped>
-ion-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+<style>
+svg {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.infinite-scroll-content {
+  text-align: center;
+  padding: 20px 0;
 }
 </style>
