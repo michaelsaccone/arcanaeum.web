@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
 import SignUp from "@/views/SignUp.vue";
 import CreateJoinFamily from "@/views/CreateJoinFamily.vue";
-import Reccomendation from "../views/Reccomendation.vue";
+import ReccomendationPage from "@/views/ReccomendationPage.vue";
 import IntroSlides from "@/views/IntroSlides.vue";
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,10 +13,6 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/signup',
     component: SignUp
-  },
-  {
-    path: '/families',
-    component: CreateJoinFamily
   },
   {
     path: '/tabs/',
@@ -38,14 +34,18 @@ const routes: Array<RouteRecordRaw> = [
         path: 'settings',
         component: () => import('@/views/tabs/Settings.vue')
       },
-        {
-            path: "/intro",
-            component: IntroSlides
-        },
-        {
-            path: '/swipe',
-            component: Reccomendation
-        },
+      {
+        path: "/intro",
+        component: IntroSlides
+      },
+      {
+        path: 'swipe',
+        component: ReccomendationPage
+      },
+      {
+        path: 'families',
+        component: CreateJoinFamily
+      },
     ]
   }
 ]

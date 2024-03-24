@@ -19,13 +19,11 @@
     "@capacitor/status-bar": "5.0.7",
     "@ionic/vue": "^7.0.0",
     "@ionic/vue-router": "^7.0.0",
+    "gsap": "^3.12.5",
     "ionicons": "^7.0.0",
     "swiper": "^11.0.7",
     "vue": "^3.3.0",
-    "vue-awesome-swiper": "^5.0.1",
-    "vue-router": "^4.2.0",
-    "vue-tinder": "^2.0.3",
-    "vuedraggable": "^2.24.3"
+    "vue-router": "^4.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "5.7.4",
