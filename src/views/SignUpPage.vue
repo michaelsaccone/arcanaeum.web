@@ -148,18 +148,14 @@ const canSubmit = computed(
 const onLogin = () => {
   submitted.value = true;
   if (usernameValid && passwordValid) {
+    /* empty */
   }
 };
 
 const onSignup = async () => {
   toastMessage.value = "Successfully logged in!";
 
-  const a = await register(
-      name.value,
-      surname.value,
-      email.value,
-      password.value
-  );
+  const a = await register(name.value, surname.value);
   
   console.log("REGISTRATO ", a);
 

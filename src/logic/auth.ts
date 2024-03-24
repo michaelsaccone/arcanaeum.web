@@ -10,10 +10,10 @@ function classicLogin(email: string, password: string): Promise<UserCredential> 
     return user;
 }
 
-async function register(name: string, surname: string, email: string, password: string): Promise<UserCredential> {
+async function register(email: string, password: string): Promise<UserCredential> {
     const user: User = {
-        name,
-        surname,
+        email,
+        password,
         email
     };
     const credentials=
