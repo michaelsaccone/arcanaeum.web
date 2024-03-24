@@ -155,7 +155,7 @@ const onLogin = () => {
 const onSignup = async () => {
   toastMessage.value = "Successfully logged in!";
 
-  const a = await register(name.value, surname.value);
+  const a = await register(name.value, surname.value, email.value, password.value);
   
   console.log("REGISTRATO ", a);
 
