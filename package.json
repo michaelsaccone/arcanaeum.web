@@ -17,13 +17,16 @@
     "@capacitor/haptics": "5.0.7",
     "@capacitor/keyboard": "5.0.8",
     "@capacitor/status-bar": "5.0.7",
+    "@faker-js/faker": "^8.4.1",
     "@ionic/vue": "^7.0.0",
     "@ionic/vue-router": "^7.0.0",
+    "faker": "^6.6.6",
     "gsap": "^3.12.5",
     "ionicons": "^7.0.0",
     "swiper": "^11.0.7",
     "vue": "^3.3.0",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.0.0",
+    "vue-scroll-snap": "^0.1.11"
   },
   "devDependencies": {
     "@capacitor/cli": "5.7.4",
