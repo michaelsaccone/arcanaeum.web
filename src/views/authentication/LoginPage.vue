@@ -5,7 +5,7 @@
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title><center>Login</center></ion-title>
+        <ion-title>{{title}}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -16,7 +16,7 @@
 
       <form novalidate @submit.prevent="onLogin">
         <ion-list>
-          <ion-item class="input-box">
+          <ion-item class="input-box" v-show="signupEnabled">
             <ion-input
                 label="Nome"
                 labelPlacement="stacked"
@@ -25,11 +25,10 @@
                 type="text"
                 :spellcheck="false"
                 autocapitalize="off"
-                required
             ></ion-input>
           </ion-item>
 
-          <ion-item class="input-box">
+          <ion-item class="input-box" v-show="signupEnabled">
             <ion-input
                 label="Cognome"
                 labelPlacement="stacked"
@@ -38,9 +37,9 @@
                 type="text"
                 :spellcheck="false"
                 autocapitalize="off"
-                required
             ></ion-input>
           </ion-item>
+
 
           <ion-item class="input-box">
             <ion-input
@@ -66,23 +65,21 @@
             ></ion-input>
           </ion-item>
         </ion-list>
+          <ion-button v-show="!signupEnabled" :disabled="!canSubmit" type="submit" expand="block" @click="onLogin" style="width: 100%; margin-bottom: 25px; margin-top: 15px">
+            Accedi
+          </ion-button>
 
-        <ion-row responsive-sm class="ion-padding">
-          <ion-col>
-            <ion-button :disabled="!canSubmit" type="submit" expand="block"
-            >Accedi</ion-button
-            >
-          </ion-col>
-          <ion-col>
-            <ion-button
-                :disabled="!canSubmit"
-                @click="onSignup"
-                color="light"
-                expand="block"
-            >Registrati</ion-button
-            >
-          </ion-col>
-        </ion-row>
+          <div v-show="!signupEnabled" style="text-align: center; color: rgba(40,155,196,0.93); text-decoration-line: underline" @click="signupEnabled = true; title = 'Registrati'">
+            - Non hai un account? -
+          </div>
+
+          <div v-show="signupEnabled" style="text-align: center; color: rgba(40,155,196,0.93); text-decoration-line: underline" @click="signupEnabled = false; title = 'Login'">
+            - Hai già un account? -
+          </div>
+
+          <ion-button v-show="signupEnabled" style="width: 100%; margin-top: 25px;" :disabled="!canSubmit && !signupEnabled" @click="onSignup" color="light" expand="block">
+            Registrati
+          </ion-button>
       </form>
       <ion-toast
           :is-open="showToast"
@@ -104,8 +101,10 @@
   max-width: 150px;
 }
 
+
 .list {
   margin-bottom: 0;
+
 }
 </style>
 
@@ -122,8 +121,6 @@ import {
   IonList,
   IonItem,
   IonTitle,
-  IonRow,
-  IonCol,
   IonInput,
   IonToast,
 } from "@ionic/vue";
@@ -135,6 +132,10 @@ const email = ref("");
 const password = ref("");
 const submitted = ref(false);
 
+const title = ref('Login');
+
+const signupEnabled = ref(false);
+
 const usernameValid = true;
 const passwordValid = true;
 
@@ -142,8 +143,12 @@ const showToast = ref(false);
 const toastMessage = ref("");
 
 const canSubmit = computed(
-    () => name.value.trim() !== "" && password.value.trim() !== ""
+    () => email.value.trim() !== "" && password.value.trim() !== ""
 );
+
+window.onload = () => {
+  console.log(signupEnabled);
+};
 
 const onLogin = () => {
   submitted.value = true;
@@ -156,7 +161,7 @@ const onSignup = async () => {
   toastMessage.value = "Successfully logged in!";
 
   const a = await register(name.value, surname.value);
-  
+
   console.log("REGISTRATO ", a);
 
   showToast.value = true;
@@ -167,11 +172,11 @@ const onSignup = async () => {
   password.value = "";
 };
 
-
 </script>
 
 <style>
 .input-box {
   max-width: 700px;
 }
+
 </style>
