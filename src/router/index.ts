@@ -35,6 +35,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/tabs/Settings.vue')
       },
       {
+        path: 'accountPreferences',
+        component: () => import('@/views/tabs/AccountPreferences.vue')
+      },
+      {
         path: "/intro",
         component: IntroSlides
       },
