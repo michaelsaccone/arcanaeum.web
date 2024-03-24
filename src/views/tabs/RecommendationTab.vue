@@ -11,12 +11,12 @@
 </template>
 
 <script>
+import { IonPage, IonContent} from '@ionic/vue';
 import VueScrollSnap from "vue-scroll-snap";
 import { ref } from 'vue';
-import {IonPage} from "@ionic/vue";
 
 export default {
-  components: {IonPage, VueScrollSnap },
+  components: {IonPage, VueScrollSnap, IonContent },
   setup() {
     const books = ref([
       { id: 1, image: 'https://m.media-amazon.com/images/I/51hpvxtvT4L._AC_UF1000,1000_QL80_.jpg' },

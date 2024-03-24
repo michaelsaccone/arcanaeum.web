@@ -39,26 +39,7 @@
 </template>
 
 <script lang="ts">
-import {
-  IonContent,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent,
-  IonList,
-  IonButton,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
-  IonCardContent,
-  IonAvatar,
-  IonImg,
-  IonLabel,
-  IonHeader,
-  IonSearchbar,
-  IonTitle,
-  IonToolbar,
-  InfiniteScrollCustomEvent, IonIcon, IonPage,
-} from '@ionic/vue';
+import { IonPage, IonContent, IonHeader, IonToolbar, IonTitle, IonSearchbar, IonText, IonList, IonCard, IonAvatar, IonLabel, IonButton, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonImg  } from '@ionic/vue';
 import {defineComponent, reactive} from 'vue';
 import {bookmarkOutline, closeOutline} from 'ionicons/icons';
 
@@ -75,6 +56,7 @@ export default defineComponent({
     IonPage,
     IonIcon,
     IonContent,
+    IonText,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
     IonList,

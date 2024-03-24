@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonThumbnail, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonReorder, IonReorderGroup, IonImg, IonModal } from '@ionic/vue';
+import { IonThumbnail, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonReorder, IonReorderGroup, IonImg, IonModal, IonFab, IonButton, IonButtons, IonInput, IonFabButton } from '@ionic/vue';
 import {add} from "ionicons/icons";
 import { ref } from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
