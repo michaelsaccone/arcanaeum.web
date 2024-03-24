@@ -23,7 +23,7 @@
           <ion-label>HOME</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab4" href="/tabs/families">
+        <ion-tab-button tab="tab4" href="/tabs/family">
           <ion-icon aria-hidden="true" :icon="peopleOutline" />
           <ion-label>Famiglia</ion-label>
         </ion-tab-button>

@@ -2,9 +2,11 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
 import SignUp from "@/views/SignUpPage.vue";
-import CreateJoinFamily from "@/views/SetFamilyPage.vue";
+import SetFamilyPage from "@/views/SetFamilyPage.vue";
 import IntroSlides from "@/views/IntroPage.vue";
 import RecommendationPage from "@/views/tabs/RecommendationTab.vue";
+import AccountPreferencesPage from "@/views/AccountPreferencesPage.vue";
+import FamilyTab from "@/views/tabs/FamilyTab.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -13,6 +15,18 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/signup',
     component: SignUp
+  },
+  {
+    path: "/intro",
+    component: IntroSlides
+  },
+  {
+    path: '/set-family',
+    component: SetFamilyPage
+  },
+  {
+    path: '/account-preferencies',
+    component: AccountPreferencesPage
   },
   {
     path: '/tabs/',
@@ -35,17 +49,13 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/tabs/SettingsTab.vue')
       },
       {
-        path: "/intro",
-        component: IntroSlides
+        path: 'family',
+        component: FamilyTab
       },
       {
         path: 'swipe',
         component: RecommendationPage
-      },
-      {
-        path: 'families',
-        component: CreateJoinFamily
-      },
+      }
     ]
   }
 ]

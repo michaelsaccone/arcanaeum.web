@@ -41,7 +41,7 @@
         <ion-item>
           <ion-input v-model="username" placeholder="Inserisci il tuo nome utente">Nome Utente</ion-input>
         </ion-item>
-        <ion-item href="/tabs/accountPreferences">
+        <ion-item href="/account-preferencies">
           <ion-label>Cambia le mie preferenze</ion-label>
           <ion-icon slot="end" :icon="arrowForwardOutlineIcon"></ion-icon>
         </ion-item>

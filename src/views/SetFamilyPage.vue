@@ -1,5 +1,7 @@
 <script setup lang="ts">
-    import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
+//  Pagina iniziale per unirti ad una famiglia o crearne una nuova
+//  Questa pagina viene vista una volta sola
+    import { IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 
     
 
