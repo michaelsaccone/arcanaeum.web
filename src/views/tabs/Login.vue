@@ -25,7 +25,6 @@
                 type="text"
                 :spellcheck="false"
                 autocapitalize="off"
-                required
             ></ion-input>
           </ion-item>
 
@@ -38,9 +37,9 @@
                 type="text"
                 :spellcheck="false"
                 autocapitalize="off"
-                required
             ></ion-input>
           </ion-item>
+
 
           <ion-item class="input-box">
             <ion-input
@@ -67,8 +66,8 @@
           </ion-item>
         </ion-list>
           <ion-button v-show="!signupEnabled" :disabled="!canSubmit" type="submit" expand="block" @click="onLogin" style="width: 100%; margin-bottom: 25px; margin-top: 15px">Accedi</ion-button>
-          <div v-show="!signupEnabled" style="text-align: center; color: rgba(40,155,196,0.93); text-decoration-line: underline" @click="enableSignup">- Non hai un account? -</div>
-          <div v-show="signupEnabled" style="text-align: center; color: rgba(40,155,196,0.93); text-decoration-line: underline" @click="disableSignup">- Hai già un account? -</div>
+          <div v-show="!signupEnabled" style="text-align: center; color: rgba(40,155,196,0.93); text-decoration-line: underline" @click="signupEnabled = true; console.log('Signup Enabled'); console.log(signupEnabled);">- Non hai un account? -</div>
+          <div v-show="signupEnabled" style="text-align: center; color: rgba(40,155,196,0.93); text-decoration-line: underline" @click="signupEnabled = false; console.log('Signup Disabled'); console.log(signupEnabled);">- Hai già un account? -</div>
           <ion-button v-show="signupEnabled" style="width: 100%; margin-top: 25px;" :disabled="!canSubmit && !signupEnabled" @click="onSignup" color="light" expand="block">Registrati</ion-button>
       </form>
       <ion-toast
@@ -122,7 +121,7 @@ const email = ref("");
 const password = ref("");
 const submitted = ref(false);
 
-let signupEnabled = false;
+let signupEnabled:boolean;
 
 const usernameValid = true;
 const passwordValid = true;
@@ -135,18 +134,6 @@ const canSubmit = computed(
 );
 
 window.onload = () => {
-  console.log(signupEnabled);
-};
-
-const enableSignup = () => {
-  signupEnabled = true;
-  console.log("Signup enabled");
-  console.log(signupEnabled);
-};
-
-const disableSignup = () => {
-  signupEnabled = false;
-  console.log("Signup disabled");
   console.log(signupEnabled);
 };
 
