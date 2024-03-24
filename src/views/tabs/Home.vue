@@ -8,7 +8,9 @@
         <ion-searchbar></ion-searchbar>
       </ion-toolbar>
     </ion-header>
-
+    <ion-text>
+      <h2>In Evidenza</h2>
+    </ion-text>
     <ion-list>
       <ion-card v-for="(item, index) in items" :key="index">
         <ion-card-header>
@@ -20,12 +22,8 @@
           </ion-avatar>
           <ion-label>{{ item }}</ion-label>
         </ion-card-content>
-        <ion-button fill="clear">
-          <ion-icon slot="icon-only" :icon="editIcon">aaa</ion-icon>
-        </ion-button>
-        <ion-button fill="clear">
-          <ion-icon slot="icon-only" :icon="deleteIcon"></ion-icon>
-        </ion-button>
+        <ion-button fill="clear"><ion-icon aria-hidden="true" :icon="bookmarkOutline()" /></ion-button>
+        <ion-button fill="clear"><ion-icon aria-hidden="true" :icon="closeOutline()" /></ion-button>
       </ion-card>
     </ion-list>
     <ion-infinite-scroll @ionInfinite="ionInfinite">
@@ -40,6 +38,7 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonList,
+  IonButton,
   IonCard,
   IonCardHeader,
   IonCardTitle,
@@ -52,19 +51,27 @@ import {
   IonSearchbar,
   IonTitle,
   IonToolbar,
-  IonButton,
-  IonIcon,
-  InfiniteScrollCustomEvent,
+  InfiniteScrollCustomEvent, IonIcon,
 } from '@ionic/vue';
 import { defineComponent, reactive } from 'vue';
-import { editOutline, trashOutline } from 'ionicons/icons';
+import {bookmarkOutline, closeOutline} from 'ionicons/icons';
 
 export default defineComponent({
+  methods: {
+    closeOutline() {
+      return closeOutline
+    },
+    bookmarkOutline() {
+      return bookmarkOutline
+    },
+  },
   components: {
+    IonIcon,
     IonContent,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
     IonList,
+    IonButton,
     IonCard,
     IonCardHeader,
     IonCardTitle,
@@ -77,13 +84,9 @@ export default defineComponent({
     IonSearchbar,
     IonTitle,
     IonToolbar,
-    IonButton,
-    IonIcon,
   },
   setup() {
     const items = reactive([]);
-    const editIcon = editOutline;
-    const deleteIcon = trashOutline;
 
     const generateItems = () => {
       const count = items.length + 1;
@@ -99,7 +102,7 @@ export default defineComponent({
 
     generateItems();
 
-    return { ionInfinite, items, editIcon, deleteIcon };
+    return { ionInfinite, items };
   },
 });
 </script>
@@ -108,6 +111,6 @@ export default defineComponent({
 ion-header {
   position: sticky;
   top: 0;
-  z-index: 1000; /* Assicura che la toolbar sia sopra il contenuto scorrevole */
+  z-index: 1000;
 }
 </style>
