@@ -7,6 +7,7 @@ import IntroSlides from "@/views/IntroPage.vue";
 import RecommendationPage from "@/views/tabs/RecommendationTab.vue";
 import AccountPreferencesPage from "@/views/AccountPreferencesPage.vue";
 import FamilyTab from "@/views/tabs/FamilyTab.vue";
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -15,6 +16,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/signup',
     component: SignUp
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/tabs/Login.vue')
   },
   {
     path: "/intro",
