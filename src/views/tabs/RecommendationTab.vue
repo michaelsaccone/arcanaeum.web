@@ -35,18 +35,24 @@ export default {
 
 <style scoped>
 .item {
+  min-height: 100%;
   height: 100%;
+  max-height: 100%;
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
 
 
 .scroll-snap-container {
-  height: 100%;
+  height: calc(100vh - 50.8px);
   width: 100%;
 }
 
 .book-image {
   object-fit: contain;
   height: 100%;
+  max-height: 100%;
   width: 100%;
+  margin: auto;
 }
 </style>
