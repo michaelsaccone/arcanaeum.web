@@ -3,8 +3,8 @@ import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
 import SignUp from "@/views/SignUp.vue";
 import CreateJoinFamily from "@/views/CreateJoinFamily.vue";
-import ReccomendationPage from "@/views/ReccomendationPage.vue";
 import IntroSlides from "@/views/IntroSlides.vue";
+import RecommendationPage from "@/views/tabs/RecommendationPage.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'swipe',
-        component: ReccomendationPage
+        component: RecommendationPage
       },
       {
         path: 'families',

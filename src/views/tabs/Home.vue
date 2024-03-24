@@ -1,35 +1,41 @@
 <template>
-  <ion-content>
-    <ion-header class="ion-no-border">
-      <ion-toolbar sticky>
-        <ion-title>Toolbar</ion-title>
-      </ion-toolbar>
-      <ion-toolbar>
-        <ion-searchbar></ion-searchbar>
-      </ion-toolbar>
-    </ion-header>
-    <ion-text>
-      <h2>In Evidenza</h2>
-    </ion-text>
-    <ion-list>
-      <ion-card v-for="(item, index) in items" :key="index">
-        <ion-card-header>
-          <ion-card-title>{{ item }}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-avatar slot="start">
-            <img :src="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
-          </ion-avatar>
-          <ion-label>{{ item }}</ion-label>
-        </ion-card-content>
-        <ion-button fill="clear"><ion-icon aria-hidden="true" :icon="bookmarkOutline()" /></ion-button>
-        <ion-button fill="clear"><ion-icon aria-hidden="true" :icon="closeOutline()" /></ion-button>
-      </ion-card>
-    </ion-list>
-    <ion-infinite-scroll @ionInfinite="ionInfinite">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-  </ion-content>
+  <ion-page>
+    <ion-content>
+      <ion-header class="ion-no-border">
+        <ion-toolbar sticky>
+          <ion-title>Toolbar</ion-title>
+        </ion-toolbar>
+        <ion-toolbar>
+          <ion-searchbar></ion-searchbar>
+        </ion-toolbar>
+      </ion-header>
+      <ion-text>
+        <h2>In Evidenza</h2>
+      </ion-text>
+      <ion-list>
+        <ion-card v-for="(item, index) in items" :key="index">
+          <ion-card-header>
+            <ion-card-title>{{ item }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-avatar slot="start">
+              <img :src="'https://picsum.photos/80/80?random=' + index" alt="avatar"/>
+            </ion-avatar>
+            <ion-label>{{ item }}</ion-label>
+          </ion-card-content>
+          <ion-button fill="clear">
+            <ion-icon :icon="bookmarkOutline()" aria-hidden="true"/>
+          </ion-button>
+          <ion-button fill="clear">
+            <ion-icon :icon="closeOutline()" aria-hidden="true"/>
+          </ion-button>
+        </ion-card>
+      </ion-list>
+      <ion-infinite-scroll @ionInfinite="ionInfinite">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-content>
+  </ion-page>
 </template>
 
 <script lang="ts">
@@ -51,9 +57,9 @@ import {
   IonSearchbar,
   IonTitle,
   IonToolbar,
-  InfiniteScrollCustomEvent, IonIcon,
+  InfiniteScrollCustomEvent, IonIcon, IonPage,
 } from '@ionic/vue';
-import { defineComponent, reactive } from 'vue';
+import {defineComponent, reactive} from 'vue';
 import {bookmarkOutline, closeOutline} from 'ionicons/icons';
 
 export default defineComponent({
@@ -66,6 +72,7 @@ export default defineComponent({
     },
   },
   components: {
+    IonPage,
     IonIcon,
     IonContent,
     IonInfiniteScroll,
@@ -102,7 +109,7 @@ export default defineComponent({
 
     generateItems();
 
-    return { ionInfinite, items };
+    return {ionInfinite, items};
   },
 });
 </script>

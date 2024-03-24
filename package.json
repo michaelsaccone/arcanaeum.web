@@ -25,7 +25,8 @@
     "ionicons": "^7.0.0",
     "swiper": "^11.0.7",
     "vue": "^3.3.0",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.0.0",
+    "vue-scroll-snap": "^0.1.11"
   },
   "devDependencies": {
     "@capacitor/cli": "5.7.4",
