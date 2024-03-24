@@ -35,7 +35,7 @@ export default {
 
 <style scoped>
 .item {
-  min-height: 100vh;
+  height: 100%;
 }
 
 
@@ -45,11 +45,7 @@ export default {
 }
 
 .book-image {
-  max-width: 100%;
-  max-height: 100%;
   object-fit: contain;
-  margin: auto;
-  display: block;
   height: 100%;
   width: 100%;
 }
