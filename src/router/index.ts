@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
-import SignUp from "@/views/SignUp.vue";
-import CreateJoinFamily from "@/views/CreateJoinFamily.vue";
-import IntroSlides from "@/views/IntroSlides.vue";
-import RecommendationPage from "@/views/tabs/RecommendationPage.vue";
+import SignUp from "@/views/SignUpPage.vue";
+import CreateJoinFamily from "@/views/SetFamilyPage.vue";
+import IntroSlides from "@/views/IntroPage.vue";
+import RecommendationPage from "@/views/tabs/RecommendationTab.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -24,15 +24,15 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'home',
-        component: () => import('@/views/tabs/Home.vue')
+        component: () => import('@/views/tabs/HomeTab.vue')
       },
       {
         path: 'summary',
-        component: () => import('@/views/tabs/Liste.vue')
+        component: () => import('@/views/tabs/SummaryTab.vue')
       },
       {
         path: 'settings',
-        component: () => import('@/views/tabs/Settings.vue')
+        component: () => import('@/views/tabs/SettingsTab.vue')
       },
       {
         path: "/intro",

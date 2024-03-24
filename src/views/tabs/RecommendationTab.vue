@@ -1,10 +1,12 @@
 <template>
   <ion-page>
-    <vue-scroll-snap class="scroll-snap-container">
-      <div class="item" v-for="(book) in books" :key="book.id">
-        <img :src="book.image" class="book-image" alt="Book cover" />
-      </div>
-    </vue-scroll-snap>
+    <ion-content>
+      <vue-scroll-snap class="scroll-snap-container">
+        <div class="item" v-for="(book) in books" :key="book.id">
+          <img :src="book.image" class="book-image" alt="Book cover" />
+        </div>
+      </vue-scroll-snap>
+    </ion-content>
   </ion-page>
 </template>
 
