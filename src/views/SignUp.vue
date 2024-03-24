@@ -20,7 +20,7 @@
             <ion-input
                 label="Nome"
                 labelPlacement="stacked"
-                v-model="username"
+                v-model="name"
                 name="username"
                 type="text"
                 :spellcheck="false"
@@ -33,7 +33,7 @@
             <ion-input
                 label="Cognome"
                 labelPlacement="stacked"
-                v-model="cognome"
+                v-model="surname"
                 name="username"
                 type="text"
                 :spellcheck="false"
@@ -70,7 +70,7 @@
         <ion-row responsive-sm class="ion-padding">
           <ion-col>
             <ion-button :disabled="!canSubmit" type="submit" expand="block"
-            >Login</ion-button
+            >Accedi</ion-button
             >
           </ion-col>
           <ion-col>
@@ -79,7 +79,7 @@
                 @click="onSignup"
                 color="light"
                 expand="block"
-            >Signup</ion-button
+            >Registrati</ion-button
             >
           </ion-col>
         </ion-row>
@@ -127,9 +127,10 @@ import {
   IonInput,
   IonToast,
 } from "@ionic/vue";
+import {register} from "@/logic/auth";
 
-const username = ref("");
-const cognome = ref("");
+const name = ref("");
+const surname = ref("");
 const email = ref("");
 const password = ref("");
 const submitted = ref(false);
@@ -141,7 +142,7 @@ const showToast = ref(false);
 const toastMessage = ref("");
 
 const canSubmit = computed(
-    () => username.value.trim() !== "" && password.value.trim() !== ""
+    () => name.value.trim() !== "" && password.value.trim() !== ""
 );
 
 const onLogin = () => {
@@ -150,14 +151,22 @@ const onLogin = () => {
   }
 };
 
-const onSignup = () => {
+const onSignup = async () => {
   toastMessage.value = "Successfully logged in!";
+
+  const a = await register(
+      name.value,
+      surname.value,
+      email.value,
+      password.value
+  );
+  
+  console.log("REGISTRATO ", a);
 
   showToast.value = true;
 
-
-  username.value = "";
-  cognome.value = "";
+  name.value = "";
+  surname.value = "";
   email.value = "";
   password.value = "";
 };
