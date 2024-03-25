@@ -12,9 +12,6 @@
       <ion-searchbar placeholder="Search" autocapitalize="off" v-model="searchQuery"></ion-searchbar>
       <ion-list>
         <ion-item v-for="member in filteredMembers" :key="member.id">
-          <ion-avatar slot="start">
-            <ion-img :src="member.avatar"></ion-img>
-          </ion-avatar>
           <ion-label>
             <h2>{{ member.name }}</h2>
             <p>{{ member.role }}</p>
@@ -60,7 +57,6 @@ import {
   IonSearchbar,
   IonButtons,
   IonList,
-  IonAvatar,
   IonItem,
   IonLabel,
   IonModal,
@@ -69,15 +65,10 @@ import {
 } from '@ionic/vue';
 import { ref, computed } from 'vue';
 
-// Dati dei membri della famiglia
 const members = ref([
-  { id: 1, name: 'Connor Smith', role: 'Sales Rep', avatar: 'https://i.pravatar.cc/300?u=b' },
-  { id: 2, name: 'Daniel Smith', role: 'Product Designer', avatar: 'https://i.pravatar.cc/300?u=a' },
-  { id: 3, name: 'Greg Smith', role: 'Director of Operations', avatar: 'https://i.pravatar.cc/300?u=d' },
-  { id: 4, name: 'Zoey Smith', role: 'CEO', avatar: 'https://i.pravatar.cc/300?u=e' }
+  { id: 1, name: 'Esempio famiglia', role: 'Famiglia' }
 ]);
 
-// Query di ricerca
 const searchQuery = ref('');
 const showToast = ref(false);
 const toastMessage = ref("");
@@ -105,9 +96,7 @@ function createFamily() {
     if (existingFamily) {
       showToastMessage("Non puoi creare una famiglia con lo stesso nome");
     } else {
-      const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-      const familyInitial = familyName.value.charAt(0).toUpperCase();
-      members.value.push({ id: members.value.length + 1, name: familyName.value, role: 'Famiglia', avatar: `https://ui-avatars.com/api/?name=${familyInitial}&background=${randomColor}&color=fff` });
+      members.value.push({ id: members.value.length + 1, name: familyName.value, role: 'Famiglia' });
       closeCreateFamilyModal();
     }
   }
