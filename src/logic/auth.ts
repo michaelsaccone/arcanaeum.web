@@ -9,7 +9,7 @@ function classicLogin(email: string, password: string) {
     return user;
 }
 
-async function register(name: string, surname: string, email: string, password: string) {
+async function register(name: string, surname: string, email: string, password: string): Promise<UserCredential> {
     const user: User = {
         name,
         surname,
@@ -23,8 +23,9 @@ async function register(name: string, surname: string, email: string, password: 
         await addDoc(collection(database, "users"), user);
 
         console.log(credentials);
+        return credentials;
     } catch (error) {
-        console.log(error.message)
+        throw new Error("Errore nella registrazione");
     }
 }
 

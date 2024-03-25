@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp, provide} from 'vue'
 import App from './App.vue'
 import router from './router';
 
@@ -25,8 +25,10 @@ import './theme/variables.css';
 
 // Register swiper components
 import { register } from 'swiper/element/bundle';
-
 register();
+
+import storage from "@/plugins/storage";
+provide('store', storage);
 
 const app = createApp(App)
   .use(IonicVue)
