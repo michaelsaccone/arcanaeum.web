@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+          <ion-back-button defaultHref="" @click="router.go(-1)"></ion-back-button>
         </ion-buttons>
         <ion-title>Impostazioni</ion-title>
       </ion-toolbar>
