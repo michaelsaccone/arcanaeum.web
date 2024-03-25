@@ -15,8 +15,11 @@
       <ion-list>
         <ion-card v-for="(item, index) in items" :key="index">
           <ion-card-header>
+            <!-- Add image above the card subtitle -->
+
             <ion-card-title>Card Title {{ index + 1 }}</ion-card-title>
             <ion-card-subtitle>Card Subtitle {{ index + 1 }}</ion-card-subtitle>
+            <ion-img :src="item.coverImage" style="max-width: 100%;"></ion-img>
           </ion-card-header>
 
           <ion-card-content :style="{ maxHeight: item.showMore ? 'none' : '50px', overflow: item.showMore ? 'none' : 'hidden', transition: 'max-height 0.3s' }">
@@ -47,6 +50,7 @@ import { bookSharp } from "ionicons/icons";
 interface Item {
   title: string;
   showMore: boolean;
+  coverImage: string; // Add cover image property to Item interface
 }
 
 export default defineComponent({
@@ -74,7 +78,8 @@ export default defineComponent({
     const items = reactive<Item[]>([]);
 
     for (let i = 1; i < 11; i++) {
-      items.push({ title: `Item ${i}`, showMore: false });
+      // You should replace 'item-cover.jpg' with the actual cover image URL
+      items.push({ title: `Item ${i}`, showMore: false, coverImage: 'item-cover.jpg' });
     }
 
     const toggleDescription = (index: number) => {
