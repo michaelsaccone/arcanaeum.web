@@ -1,19 +1,5 @@
 <template>
-
-    <ion-menu content-id="main-content">
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Menu Content</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <ion-menu-toggle>
-          <ion-button>Click to close the menu</ion-button>
-        </ion-menu-toggle>
-      </ion-content>
-    </ion-menu>
-
-  <ion-page id="main-content">
+  <ion-page>
     <ion-header>
       <ion-toolbar>
         <div style="align-content: center">
@@ -25,52 +11,52 @@
         <ion-searchbar></ion-searchbar>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-
+    <ion-content>
       <ion-list>
         <ion-card v-for="(item, index) in items" :key="index">
           <ion-card-header>
             <ion-card-title>Card Title {{ index + 1 }}</ion-card-title>
             <ion-card-subtitle>Card Subtitle {{ index + 1 }}</ion-card-subtitle>
           </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
+
+          <ion-card-content :style="{ maxHeight: item.showMore ? 'none' : '50px', overflow: item.showMore ? 'none' : 'hidden', transition: 'max-height 0.3s' }">
+            <template v-if="!item.showMore">
+              Here's a small text description for the card content. Nothing more, nothing less.
+            </template>
+            <template v-else>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus efficitur metus ac accumsan.
+              Vestibulum quis ex nec mi eleifend elementum. In hac habitasse platea dictumst. Duis tincidunt
+              lobortis augue. Sed nec justo eu leo ultricies bibendum. Mauris sit amet dolor velit. Nullam
+              ultricies nunc id nulla feugiat, ut lacinia ex malesuada.
+            </template>
           </ion-card-content>
-          <ion-menu-toggle>
-            <ion-button fill="clear"><ion-icon aria-hidden="true" :icon="bookmarkOutline()" /></ion-button>
-          </ion-menu-toggle>
+
+          <ion-button fill="clear" @click="toggleDescription(index)">{{ item.showMore ? 'Nascondi libro' : 'Mostra libro' }}</ion-button>
         </ion-card>
       </ion-list>
-
       <div style="height: 20px;"></div>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSearchbar, IonHeader, IonTitle, IonToolbar, IonMenu, IonMenuToggle } from '@ionic/vue';
+import { IonPage, IonContent, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSearchbar, IonHeader, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent, reactive } from 'vue';
-import {bookmarkOutline, bookOutline, bookSharp, personOutline} from "ionicons/icons";
+import { bookSharp } from "ionicons/icons";
+
+interface Item {
+  title: string;
+  showMore: boolean;
+}
 
 export default defineComponent({
   methods: {
-    bookmarkOutline() {
-      return bookmarkOutline
-    },
     bookSharp() {
       return bookSharp
-    },
-    bookOutline() {
-      return bookOutline
-    },
-    personOutline() {
-      return personOutline
-    },
+    }
   },
   components: {
     IonPage,
-    IonMenu,
-    IonMenuToggle,
     IonContent,
     IonList,
     IonCard,
@@ -85,13 +71,17 @@ export default defineComponent({
     IonToolbar
   },
   setup() {
-    const items = reactive([]);
+    const items = reactive<Item[]>([]);
 
     for (let i = 1; i < 11; i++) {
-      items.push(`Item ${i}`);
+      items.push({ title: `Item ${i}`, showMore: false });
     }
 
-    return { items };
+    const toggleDescription = (index: number) => {
+      items[index].showMore = !items[index].showMore;
+    };
+
+    return { items, toggleDescription };
   },
 });
 </script>
@@ -106,5 +96,9 @@ svg {
 .infinite-scroll-content {
   text-align: center;
   padding: 20px 0;
+}
+
+ion-card-content {
+  transition: max-height 0.3s ease;
 }
 </style>
