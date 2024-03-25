@@ -11,7 +11,7 @@ import FamilyTab from "@/views/tabs/FamilyTab.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/home'
+    redirect: '/login'
   },
   {
     path: '/signup',

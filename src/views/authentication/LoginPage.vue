@@ -14,9 +14,45 @@
         <img src="/resources/logoArcaneum.png" alt="Ionic logo" />
       </div>
 
-      <form novalidate @submit.prevent="onLogin">
+      <form novalidate @submit.prevent="onLogin" v-if="!signupEnabled">
         <ion-list>
-          <ion-item class="input-box" v-show="signupEnabled">
+          <ion-item class="input-box">
+            <ion-input
+                label="Email"
+                labelPlacement="stacked"
+                v-model="email"
+                name="username"
+                type="text"
+                :spellcheck="false"
+                autocapitalize="off"
+                required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item class="input-box">
+            <ion-input
+                labelPlacement="stacked"
+                label="Password"
+                v-model="password"
+                name="password"
+                type="password"
+                required
+            ></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-button :disabled="!canSubmit" type="submit" expand="block" @click="onLogin" style="width: 100%; margin-bottom: 25px; margin-top: 15px">
+          Accedi
+        </ion-button>
+
+        <div  style="text-align: center; color: rgba(40,155,196,0.93);" @click="enableSignup">
+           Non hai un account?
+        </div>
+      </form>
+
+
+      <form novalidate @submit.prevent="onLogin" v-else>
+        <ion-list>
+          <ion-item class="input-box">
             <ion-input
                 label="Nome"
                 labelPlacement="stacked"
@@ -28,7 +64,7 @@
             ></ion-input>
           </ion-item>
 
-          <ion-item class="input-box" v-show="signupEnabled">
+          <ion-item class="input-box">
             <ion-input
                 label="Cognome"
                 labelPlacement="stacked"
@@ -65,21 +101,16 @@
             ></ion-input>
           </ion-item>
         </ion-list>
-          <ion-button v-show="!signupEnabled" :disabled="!canSubmit" type="submit" expand="block" @click="onLogin" style="width: 100%; margin-bottom: 25px; margin-top: 15px">
-            Accedi
-          </ion-button>
 
-          <div v-show="!signupEnabled" style="text-align: center; color: rgba(40,155,196,0.93); text-decoration-line: underline" @click="signupEnabled = true; title = 'Registrati'">
-            - Non hai un account? -
-          </div>
+        <ion-button style="width: 100%; margin-top: 25px; margin-bottom: 25px" :disabled="!canSubmit && !signupEnabled" @click="onSignup" color="light" expand="block">
+          Registrati
+        </ion-button>
 
-          <div v-show="signupEnabled" style="text-align: center; color: rgba(40,155,196,0.93); text-decoration-line: underline" @click="signupEnabled = false; title = 'Login'">
-            - Hai già un account? -
-          </div>
+        <div  style="text-align: center; color: rgba(40,155,196,0.93);" @click="disableSignup">
+           Hai già un account?
+        </div>
 
-          <ion-button v-show="signupEnabled" style="width: 100%; margin-top: 25px;" :disabled="!canSubmit && !signupEnabled" @click="onSignup" color="light" expand="block">
-            Registrati
-          </ion-button>
+
       </form>
       <ion-toast
           :is-open="showToast"
@@ -109,7 +140,7 @@
 </style>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import {computed, ref} from "vue";
 import {
   IonPage,
   IonHeader,
@@ -125,6 +156,7 @@ import {
   IonToast,
 } from "@ionic/vue";
 import {register} from "@/logic/auth";
+import router from "@/router";
 
 const name = ref("");
 const surname = ref("");
@@ -136,8 +168,8 @@ const title = ref('Login');
 
 const signupEnabled = ref(false);
 
-const usernameValid = true;
-const passwordValid = true;
+const usernameValid = ref(true);
+const passwordValid = ref(true);
 
 const showToast = ref(false);
 const toastMessage = ref("");
@@ -146,14 +178,23 @@ const canSubmit = computed(
     () => email.value.trim() !== "" && password.value.trim() !== ""
 );
 
-window.onload = () => {
-  console.log(signupEnabled);
+
+const disableSignup = () => {
+  signupEnabled.value = false;
+  title.value = 'Login';
+};
+
+const enableSignup = () => {
+  signupEnabled.value = true;
+  password.value = "";
+  title.value = 'Registrati';
 };
 
 const onLogin = () => {
   submitted.value = true;
-  if (usernameValid && passwordValid) {
-    /* empty */
+  if (usernameValid.value && passwordValid.value) {
+    console.log("LOGIN EFFETTUATO CON SUCCESSO")
+    router.push("/tabs/home");
   }
 };
 
@@ -165,12 +206,14 @@ const onSignup = async () => {
   console.log("REGISTRATO ", a);
 
   showToast.value = true;
-
+  signupEnabled.value = false;
   name.value = "";
   surname.value = "";
   email.value = "";
   password.value = "";
+
 };
+
 
 </script>
 

@@ -60,6 +60,7 @@
 import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonList, IonItemDivider, IonLabel, IonItem, IonInput, IonSelect, IonSelectOption, IonToggle, IonButton, IonIcon } from '@ionic/vue';
 import { ref } from 'vue';
 import { arrowForwardOutline } from 'ionicons/icons';
+import router from "@/router";
 
 const username = ref<string>('');
 const selectedLanguage = ref<string>('italian');
@@ -71,6 +72,7 @@ const arrowForwardOutlineIcon = arrowForwardOutline;
 function logout() {
   // TODO: Aggiungere la logica per effettuare il logout dall'applicazione
   console.log('Logout eseguito');
+  router.push('/');
 }
 
 function resetSettings() {
