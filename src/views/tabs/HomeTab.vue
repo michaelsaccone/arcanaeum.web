@@ -1,101 +1,62 @@
 <template>
-  <ion-page>
+
+    <ion-menu content-id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Menu Content</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-menu-toggle>
+          <ion-button>Click to close the menu</ion-button>
+        </ion-menu-toggle>
+      </ion-content>
+    </ion-menu>
+
+  <ion-page id="main-content">
     <ion-header>
       <ion-toolbar>
         <div style="align-content: center">
           <ion-title style="text-align: left">ARCANAEUM personale</ion-title>
           <ion-icon :icon="bookSharp()"></ion-icon>
-
         </div>
       </ion-toolbar>
       <ion-toolbar>
         <ion-searchbar></ion-searchbar>
       </ion-toolbar>
     </ion-header>
+    <ion-content class="ion-padding">
 
-    <ion-content>
       <ion-list>
         <ion-card v-for="(item, index) in items" :key="index">
           <ion-card-header>
             <ion-card-title>Card Title {{ index + 1 }}</ion-card-title>
             <ion-card-subtitle>Card Subtitle {{ index + 1 }}</ion-card-subtitle>
           </ion-card-header>
-
           <ion-card-content>
             Here's a small text description for the card content. Nothing more, nothing less.
           </ion-card-content>
-
-          <ion-button fill="clear">Mostra libro</ion-button>
+          <ion-menu-toggle>
+            <ion-button fill="clear"><ion-icon aria-hidden="true" :icon="bookmarkOutline()" /></ion-button>
+          </ion-menu-toggle>
         </ion-card>
       </ion-list>
-      <ion-infinite-scroll>
-        <div class="infinite-scroll-content">
-          <svg
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              x="0px"
-              y="0px"
-              viewBox="0 0 100 100"
-              enable-background="new 0 0 100 100"
-              xml:space="preserve"
-          >
-          <circle fill="none" stroke="#1b6dff" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50" r="48" />
-            <line
-                fill="none"
-                stroke-linecap="round"
-                stroke="#1b6dff"
-                stroke-width="4"
-                stroke-miterlimit="10"
-                x1="50"
-                y1="50"
-                x2="85"
-                y2="50.5"
-            >
-            <animateTransform
-                attributeName="transform"
-                dur="2s"
-                type="rotate"
-                from="0 50 50"
-                to="360 50 50"
-                repeatCount="indefinite"
-            />
-          </line>
-            <line
-                fill="none"
-                stroke-linecap="round"
-                stroke="#1b6dff"
-                stroke-width="4"
-                stroke-miterlimit="10"
-                x1="50"
-                y1="50"
-                x2="49.5"
-                y2="74"
-            >
-            <animateTransform
-                attributeName="transform"
-                dur="15s"
-                type="rotate"
-                from="0 50 50"
-                to="360 50 50"
-                repeatCount="indefinite"
-            />
-          </line>
-        </svg>
-        </div>
-      </ion-infinite-scroll>
+
       <div style="height: 20px;"></div>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent, IonInfiniteScroll, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSearchbar, IonHeader, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonPage, IonContent, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSearchbar, IonHeader, IonTitle, IonToolbar, IonMenu, IonMenuToggle } from '@ionic/vue';
 import { defineComponent, reactive } from 'vue';
-import {bookOutline, bookSharp, personOutline} from "ionicons/icons";
+import {bookmarkOutline, bookOutline, bookSharp, personOutline} from "ionicons/icons";
 
 export default defineComponent({
   methods: {
+    bookmarkOutline() {
+      return bookmarkOutline
+    },
     bookSharp() {
       return bookSharp
     },
@@ -108,8 +69,9 @@ export default defineComponent({
   },
   components: {
     IonPage,
+    IonMenu,
+    IonMenuToggle,
     IonContent,
-    IonInfiniteScroll,
     IonList,
     IonCard,
     IonCardHeader,
