@@ -23,6 +23,11 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+// Register swiper components
+import { register } from 'swiper/element/bundle';
+
+register();
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router);

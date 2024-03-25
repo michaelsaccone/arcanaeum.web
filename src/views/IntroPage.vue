@@ -1,89 +1,58 @@
-
 <template>
-  <swiper
-      :slides-per-view="1"
-      :space-between="10"
-  >
-    <swiper-slide>
-      <ion-page>
-        <ion-content>
-          <ion-header>
-            <ion-toolbar>
-              <ion-title class="custom-title">Benvenuto</ion-title>
-            </ion-toolbar>
-          </ion-header>
-          <img
-            alt="!Null"
-            src="https://th.bing.com/th/id/OIP.K0-6kdzB4K1dH6p0oBdUBAHaEo?rs=1&pid=ImgDetMain"
-          />
-          <ion-list>
-            <ion-item>
-              <ion-checkbox class="custom-font" label-placement="stacked" alignment="center">Accetto il trattamento dei miei dati</ion-checkbox>
-            </ion-item>
+  <ion-page>
+    <ion-content>
+      <swiper
+          :slides-per-view="1"
+          :space-between="0"
+      >
+        <swiper-slide style="background-color: #2fdf75">
+          <slide1/>
+        </swiper-slide>
 
-            <ion-item>
-              <ion-checkbox class="custom-font" label-placement="stacked" alignment="center">Voglio ricevere notifiche sulle novità</ion-checkbox>
-            </ion-item>
-          </ion-list>
-          </ion-content>
-          
-          <ion-footer>
-            <ion-toolbar>
-              <ion-chip color="secondary">Next</ion-chip>
-            </ion-toolbar>
-          </ion-footer>   
-        
-      </ion-page>
-        
-    </swiper-slide>
+        <swiper-slide style="background-color: #6a64ff">
+          <slide2/>
+        </swiper-slide>
 
-    <swiper-slide>
-      <ion-page>
-        <ion-content>
-          <ion-header>
-            <ion-toolbar>
-              <ion-title class="custom-title">Accedi / Registrati</ion-title>
-            </ion-toolbar>
-          </ion-header>
-        </ion-content>
-
-          <ion-footer>
-            <ion-toolbar>
-              <ion-chip color="secondary">Previous</ion-chip>
-              <ion-chip color="secondary">Next</ion-chip>
-            </ion-toolbar>
-          </ion-footer>   
-        
-      </ion-page>
-
-    </swiper-slide>
-
-    <swiper-slide>
-      <ion-page>
-        <ion-content>
-          <ion-header>
-            <ion-toolbar>
-              <ion-title class="custom-title">Join us</ion-title>
-            </ion-toolbar>
-          </ion-header>
-        </ion-content>
-          <ion-footer>
-            <ion-toolbar>
-              <ion-chip  color="secondary">Previous</ion-chip>
-              <ion-chip color="secondary">Next</ion-chip>
-            </ion-toolbar>
-          </ion-footer>   
-        
-      </ion-page>
-
-    </swiper-slide>
-  </swiper>
+        <swiper-slide style="background-color: #cf3c4f">
+          <slide3/>
+        </swiper-slide>
+      </swiper>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+        <ion-button style="width: 95vw" shape="round" fill="default" strong color="dark">
+          salta
+        </ion-button>
+      </ion-fab>
+<!--    <ion-fab slot="fixed" vertical="bottom" horizontal="end">-->
+<!--      <ion-button fill="clear" strong color="dark">-->
+<!--        avanti-->
+<!--        <ion-icon slot="end" :icon="arrowForward"></ion-icon>-->
+<!--      </ion-button>-->
+<!--    </ion-fab>-->
+    </ion-content>
+  </ion-page>
 </template>
 
 <script setup lang="ts">
-import { Swiper, SwiperSlide,  } from 'swiper/vue';
-import { IonToolbar, IonFooter, IonButton, IonContent,IonPage, IonIcon, IonChip, IonHeader, IonTitle, IonCheckbox, IonItem, IonList } from '@ionic/vue';
+import {Swiper, SwiperSlide,} from 'swiper/vue';
+import {
+  IonToolbar,
+  IonFooter,
+  IonButton,
+  IonContent,
+  IonPage,
+  IonIcon,
+  IonChip,
+  IonHeader,
+  IonTitle,
+  IonCheckbox,
+  IonItem,
+  IonList, IonFab, IonFabButton
+} from '@ionic/vue';
 import 'swiper/css';
+import Slide1 from "@/components/slides/slide1.vue";
+import Slide2 from "@/components/slides/slide2.vue";
+import Slide3 from "@/components/slides/slide3.vue";
+import {add, arrowForward} from "ionicons/icons";
 </script>
 
 <style scoped>
@@ -96,7 +65,7 @@ import 'swiper/css';
   text-align: center;
   font-size: 18px;
 
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,7 +74,7 @@ import 'swiper/css';
 .custom-font {
   font-size: 20px;
 
-  
+
 }
 
 .custom-title {
