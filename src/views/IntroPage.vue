@@ -4,6 +4,12 @@
       <swiper
           :slides-per-view="1"
           :space-between="0"
+          :modules="modules"
+          :pagination="{
+            dynamicBullets: true,
+          }"
+          @reachEnd="isLastSlide = true"
+          @slideChange="onSlideChange"
       >
         <swiper-slide style="background-color: #2fdf75">
           <slide1/>
@@ -17,17 +23,11 @@
           <slide3/>
         </swiper-slide>
       </swiper>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-        <ion-button style="width: 95vw" shape="round" fill="default" strong color="dark">
-          salta
+      <ion-fab slot="fixed" vertical="bottom" horizontal="center" style="margin-bottom: 25px">
+        <ion-button style="width: 95vw" shape="round" fill="default" strong color="dark" href="/login">
+          {{ isLastSlide ? 'Accedi' : 'Salta' }}
         </ion-button>
       </ion-fab>
-<!--    <ion-fab slot="fixed" vertical="bottom" horizontal="end">-->
-<!--      <ion-button fill="clear" strong color="dark">-->
-<!--        avanti-->
-<!--        <ion-icon slot="end" :icon="arrowForward"></ion-icon>-->
-<!--      </ion-button>-->
-<!--    </ion-fab>-->
     </ion-content>
   </ion-page>
 </template>
@@ -35,27 +35,33 @@
 <script setup lang="ts">
 import {Swiper, SwiperSlide,} from 'swiper/vue';
 import {
-  IonToolbar,
-  IonFooter,
-  IonButton,
   IonContent,
   IonPage,
-  IonIcon,
-  IonChip,
-  IonHeader,
-  IonTitle,
-  IonCheckbox,
-  IonItem,
-  IonList, IonFab, IonFabButton
 } from '@ionic/vue';
 import 'swiper/css';
 import Slide1 from "@/components/slides/slide1.vue";
 import Slide2 from "@/components/slides/slide2.vue";
 import Slide3 from "@/components/slides/slide3.vue";
-import {add, arrowForward} from "ionicons/icons";
+import 'swiper/css';
+
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
+import {ref} from "vue";
+
+const modules = [ Pagination ];
+
+const isLastSlide = ref(false);
+
+function onSlideChange(event: any) {
+  // console.log(event.isEnd)
+  if(event.isEnd)
+    isLastSlide.value = true;
+  else isLastSlide.value = false;
+}
 </script>
 
 <style scoped>
+
 .swiper {
   width: 100%;
   height: 100%;
@@ -73,8 +79,6 @@ import {add, arrowForward} from "ionicons/icons";
 
 .custom-font {
   font-size: 20px;
-
-
 }
 
 .custom-title {
