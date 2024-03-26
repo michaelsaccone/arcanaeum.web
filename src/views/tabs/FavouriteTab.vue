@@ -40,19 +40,6 @@
             ></ion-input>
           </ion-item>
         </ion-content>
-        <ion-content>
-          <ion-grid style="text-align: center; margin-right: 30px">
-            <ion-row>
-              <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
-                <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }" @click="displayGenre(genre)">
-                  {{ genre }}
-                  <ion-ripple-effect></ion-ripple-effect>
-                </div>
-              </ion-col>
-
-            </ion-row>
-          </ion-grid>
-        </ion-content>
       </ion-modal>
 
     </ion-content>
@@ -113,7 +100,7 @@ const modal = ref();
 const input = ref();
 const message = ref('This modal example uses triggers to automatically open a modal when the button is clicked.');
 
-const addBookText = ref("ciao ");
+const addBookText = ref("");
 
 function printCiao() {
   console.log(addBookText.value);
