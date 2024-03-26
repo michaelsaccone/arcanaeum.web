@@ -20,9 +20,9 @@
 
         <ion-list lines="full">
           <ion-item-divider color="primary">
-            <ion-label>Membri della Famiglia</ion-label>
+            <ion-label><h2>Membri della Famiglia</h2></ion-label>
           </ion-item-divider>
-          <ion-item v-for="(member, index) in familyMembers" :key="index">
+          <ion-item v-for="(member, index) in familyMembers" :key="index" color="light">
             <ion-icon :icon="personOutline" slot="start"></ion-icon>
             <ion-label>{{ member.name }}</ion-label>
           </ion-item>
@@ -32,7 +32,8 @@
       <ion-footer>
         <ion-toolbar>
           <ion-item color="light">
-            <ion-button expand="block" @click="familylogout" color="danger" shape="round" size="default">Abbandona famiglia</ion-button>
+            <ion-label expand="block" @click="familylogout" color="danger" shape="round" size="default">Abbandona famiglia</ion-label>
+            <ion-icon slot="end" :icon="exitOutlineIcon" class="red"></ion-icon>
           </ion-item>
         </ion-toolbar>
       </ion-footer>
@@ -42,7 +43,7 @@
   <script setup lang="ts">
   import { IonPage, IonHeader, IonItem, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonList, IonItemDivider, IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonIcon, IonFooter } from '@ionic/vue';
   import { ref } from 'vue';
-  import { personOutline } from "ionicons/icons";
+  import { personOutline, exitOutline } from "ionicons/icons";
   import router from "@/router";
   
   const familyMembers = ref([
@@ -51,6 +52,7 @@
     { name: 'El turco' }
   ]);
   const familyCode = ref(generateFamilyCode());
+  const exitOutlineIcon = exitOutline;
   
   function generateFamilyCode() {
     // TODO: Aggiungere la logica per generare un codice univoco per la famiglia
@@ -68,5 +70,9 @@
     ion-item {
       margin: 5px;
       border-radius: 10px;
+    }
+
+    .red {
+      color: rgb(255, 64, 64);
     }
   </style>

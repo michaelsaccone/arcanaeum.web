@@ -11,8 +11,12 @@
     <ion-content :fullscreen="true">
       <ion-list lines="full">
         <ion-item-divider color="primary">
-          <ion-label>Generali</ion-label>
+          <ion-label><h2>Generali</h2></ion-label>
         </ion-item-divider>
+        <ion-item href="/read-books" color="light">
+          <ion-label>Libri letti</ion-label>
+          <ion-icon slot="end" :icon="arrowForwardOutlineIcon"></ion-icon>
+        </ion-item>
         <ion-item color="light">
           <ion-select v-model="selectedLanguage" interface="popover" label="Lingua">
             <ion-select-option value="italian">Italiano</ion-select-option>
@@ -35,7 +39,7 @@
       </ion-list>
 
       <ion-item-divider color="primary">
-        <ion-label>Account</ion-label>
+        <ion-label><h2>Account</h2></ion-label>
       </ion-item-divider>
       <ion-list lines="full">
         <ion-item color="light">
@@ -50,10 +54,12 @@
           <ion-icon slot="end" :icon="arrowForwardOutlineIcon"></ion-icon>
         </ion-item>
         <ion-item color="light">
-          <ion-button expand="block" @click="logout" color="danger" shape="round" size="default">Esci dall'account</ion-button>
+          <ion-label expand="block" @click="logout" color="danger" shape="round" size="default">Esci dall'account</ion-label>
+          <ion-icon slot="end" :icon="exitOutlineIcon" class="red"></ion-icon>
         </ion-item>
         <ion-item color="light">
-          <ion-button expand="block" @click="resetSettings" color="warning" shape="round" size="default">Reset Impostazioni</ion-button>
+          <ion-label expand="block" @click="resetSettings" color="warning" shape="round" size="default">Reset Impostazioni</ion-label>
+          <ion-icon slot="end" :icon="settingsOutlineIcon" class="yellow"></ion-icon>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -63,15 +69,17 @@
 <script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonList, IonItemDivider, IonLabel, IonItem, IonInput, IonSelect, IonSelectOption, IonToggle, IonButton, IonIcon } from '@ionic/vue';
 import { ref } from 'vue';
-import { arrowForwardOutline } from 'ionicons/icons';
+import { arrowForwardOutline, exitOutline, settingsOutline } from 'ionicons/icons';
 import router from "@/router";
 
 const username = ref<string>('');
 const selectedLanguage = ref<string>('italian');
-const selectedTheme = ref<string>('light');
+const selectedTheme = ref<string>('dark');
 const notificationsEnabled = ref<boolean>(true);
 const hideAdultBooks = ref<boolean>(false);
 const arrowForwardOutlineIcon = arrowForwardOutline;
+const exitOutlineIcon = exitOutline;
+const settingsOutlineIcon = settingsOutline;
 
 function logout() {
   // TODO: Aggiungere la logica per effettuare il logout dall'applicazione
@@ -90,4 +98,12 @@ ion-item {
   margin: 5px;
   border-radius: 10px;
 }
+
+ .red {
+  color: rgb(255, 64, 64);
+ }
+
+ .yellow {
+  color: rgb(255,204,0);
+ }
 </style>

@@ -3,11 +3,11 @@ import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
 import SetFamilyPage from "@/views/SetFamilyPage.vue";
 import IntroSlides from "@/views/IntroPage.vue";
-import RecommendationPage from "@/views/tabs/RecommendationTab.vue";
 import AccountPreferencesPage from "@/views/preferences/AccountPreferencesPage.vue";
 import FamilyPreferencesPage from '@/views/preferences/FamilyPreferencesPage.vue';
 import ShopTab from "@/views/tabs/ShopTab.vue";
 import ComingSoonPage from "@/views/ComingSoonPage.vue";
+import ReadBooksPreferencesPage from '@/views/preferences/ReadBooksPreferencesPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -34,6 +34,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/family-settings',
     component: FamilyPreferencesPage
+  },
+  {
+    path: '/read-books',
+    component: ReadBooksPreferencesPage
   },
   {
     path: '/tabs/',

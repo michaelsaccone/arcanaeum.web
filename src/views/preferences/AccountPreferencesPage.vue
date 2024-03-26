@@ -10,19 +10,19 @@
       </ion-header>
       <ion-content :fullscreen="true">
         <ion-list>
-          <ion-item color="light" lines="full">
+          <ion-item color="light">
             <ion-toggle v-model="selectedFantasy">Fantasy</ion-toggle>
           </ion-item>
-          <ion-item color="light" lines="full">
+          <ion-item color="light">
             <ion-toggle v-model="selectedAdventure">Avventura</ion-toggle>
           </ion-item>
-          <ion-item color="light" lines="full">
+          <ion-item color="light">
             <ion-toggle v-model="selectedMystery">Mistero</ion-toggle>
           </ion-item>
-          <ion-item color="light" lines="full">
+          <ion-item color="light">
             <ion-toggle v-model="selectedRomantic">Romantico</ion-toggle>
           </ion-item>
-          <ion-item color="light" lines="full">
+          <ion-item color="light">
             <ion-toggle v-model="selectedThriller">Thriller</ion-toggle>
           </ion-item>
         </ion-list>
@@ -43,9 +43,9 @@
   </script>
 
   <style scoped>
-  ion-item {
-    margin: 5px;
-    border-radius: 10px;
-  }
+    ion-item {
+      margin: 5px;
+      border-radius: 10px;
+    }
   </style>
   
