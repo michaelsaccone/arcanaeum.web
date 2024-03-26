@@ -6,7 +6,7 @@ import IntroSlides from "@/views/IntroPage.vue";
 import RecommendationPage from "@/views/tabs/RecommendationTab.vue";
 import AccountPreferencesPage from "@/views/preferences/AccountPreferencesPage.vue";
 import FamilyPreferencesPage from '@/views/preferences/FamilyPreferencesPage.vue';
-import FamilyTab from "@/views/tabs/FamilyTab.vue";
+import ShopTab from "@/views/tabs/ShopTab.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -54,8 +54,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/tabs/SettingsTab.vue')
       },
       {
-        path: 'family',
-        component: FamilyTab
+        path: 'shop',
+        component: ShopTab
       },
       {
         path: 'swipe',
