@@ -7,7 +7,6 @@ defineProps({
   books: Array<Book>
 });
 
-
 const handleReorder = (event: CustomEvent) => {
   console.log('Dragged from index', event.detail.from, 'to', event.detail.to);
   event.detail.complete();

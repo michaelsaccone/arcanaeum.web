@@ -84,7 +84,7 @@ const settingsOutlineIcon = settingsOutline;
 function logout() {
   // TODO: Aggiungere la logica per effettuare il logout dall'applicazione
   console.log('Logout eseguito');
-  router.push('/login');
+  router.replace('/login');
 }
 
 function resetSettings() {

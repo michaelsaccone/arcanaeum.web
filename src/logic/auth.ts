@@ -50,4 +50,9 @@ async function register(name: string, surname: string, email: string, password: 
     }
 }
 
-export { classicLogin, register };
+async function logout() {
+    await storage.set('isLogged', false);
+    await storage.set('user', null);
+}
+
+export { classicLogin, register, logout };

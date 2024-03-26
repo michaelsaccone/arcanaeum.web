@@ -12,15 +12,21 @@
           @slideChange="onSlideChange"
       >
         <swiper-slide style="background-color: #2fdf75">
-          <slide1/>
+          <slide image-url="/resources/imageSlide1.png" title="CATALOGA">
+            CIAO
+          </slide>
         </swiper-slide>
 
         <swiper-slide style="background-color: #6a64ff">
-          <slide2/>
+          <slide image-url="/resources/imageSlide1.png" title="CATALOGA">
+            CIAO 2
+          </slide>
         </swiper-slide>
 
         <swiper-slide style="background-color: #cf3c4f">
-          <slide3/>
+          <slide image-url="/resources/imageSlide2.png" title="CATALOGA">
+            CIAO 3
+          </slide>
         </swiper-slide>
       </swiper>
       <ion-fab slot="fixed" vertical="bottom" horizontal="center" style="margin-bottom: 25px">
@@ -39,9 +45,7 @@ import {
   IonPage,
 } from '@ionic/vue';
 import 'swiper/css';
-import Slide1 from "@/components/slides/slide1.vue";
-import Slide2 from "@/components/slides/slide2.vue";
-import Slide3 from "@/components/slides/slide3.vue";
+import Slide from "@/components/slides/SlideComponent.vue";
 import 'swiper/css';
 
 import 'swiper/css/pagination';
@@ -50,8 +54,8 @@ import {ref} from "vue";
 
 const modules = [ Pagination ];
 
-const isLastSlide = ref(false);
 
+const isLastSlide = ref(false);
 function onSlideChange(event: any) {
   // console.log(event.isEnd)
   if(event.isEnd)
