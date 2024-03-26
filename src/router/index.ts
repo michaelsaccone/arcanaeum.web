@@ -52,8 +52,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/tabs/HomeTab.vue')
       },
       {
-        path: 'summary',
-        component: () => import('@/views/tabs/SummaryTab.vue')
+        path: 'favourites',
+        component: () => import('@/views/tabs/FavouriteTab.vue')
       },
       {
         path: 'settings',
