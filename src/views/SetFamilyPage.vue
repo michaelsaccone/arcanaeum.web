@@ -24,7 +24,7 @@
     </ion-content>
     <ion-footer>
       <ion-toolbar style="text-align: center;">
-        <ion-button @click="isCreateFamilyModalOpen = true; familyName = ''; " id="open-modal" shape="round">Crea Famiglia</ion-button>
+        <ion-button @click="isCreateFamilyModalOpen = true; familyName = ''; selectedIcon = ''" id="open-modal" shape="round">Crea Famiglia</ion-button>
       </ion-toolbar>
     </ion-footer>
 
