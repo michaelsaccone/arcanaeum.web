@@ -39,11 +39,13 @@
                 v-model="addBookText"
                 @change="searchBooks"
             ></ion-input>
+
             <ion-popover :is-open="openPopover">
-              <book-list :books="books" />
+              <ion-content>
+                <card :items="books" />
+              </ion-content>
             </ion-popover>
           </ion-item>
-
         </ion-content>
         <ion-content>
           <ion-grid style="text-align: center; margin-right: 30px">
@@ -65,13 +67,32 @@
 </template>
 
 <script setup lang="ts">
-import { IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonModal, IonFab, IonButton, IonButtons, IonInput, IonFabButton, IonRippleEffect, IonGrid, IonCol, IonRow } from '@ionic/vue';
+import {
+  IonIcon,
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonModal,
+  IonFab,
+  IonButton,
+  IonButtons,
+  IonInput,
+  IonFabButton,
+  IonRippleEffect,
+  IonGrid,
+  IonCol,
+  IonRow,
+} from '@ionic/vue';
 import {add} from "ionicons/icons";
 import {Ref, ref} from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
 import BookList from "@/components/BookList.vue";
 import Book from "@/models/Book";
 import bookScraper from "@/logic/bookScraper";
+import card from "@/components/CardComponent.vue";
 
 const bookScraperObject = new bookScraper();
 
@@ -90,9 +111,10 @@ function printCiao() {
 }
 
 async function searchBooks() {
-  console.log(input.value.$el.value);
+  console.log("VALORE INPUT \n" + input.value.$el.value);
   openPopover.value = true;
   books.value = await bookScraperObject.cercaLibriFinale(input.value.$el.value);
+  console.log(books.value);
 }
 
 const cancel = () => modal.value.$el.dismiss(null, 'cancel');

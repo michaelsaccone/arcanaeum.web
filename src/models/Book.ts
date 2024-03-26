@@ -4,9 +4,12 @@ interface Book {
     isbn: string;
     author: string;
     publishYear: string;
-    genre: string;
+    genres: string[];
     description: string | null;
+    language: string;
     image: string;
+    previewLink: string;
+    infoLink: string;
 }
 
 export default Book;
