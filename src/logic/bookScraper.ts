@@ -37,17 +37,16 @@ class bookScraper {
             const libri: Array<Book> = data.items.map((libro:any) => {
                 const volumeInfo = libro.volumeInfo;
                 return {
-                    titolo: volumeInfo.title || 'Titolo non disponibile',
-                    autori: volumeInfo.authors || ['Autore/i non disponibile'],
-                    editore: volumeInfo.publisher || 'Editore non disponibile',
+                    title: volumeInfo.title || 'Titolo non disponibile',
+                    author: volumeInfo.authors || ['Autore/i non disponibile'],
                     isbn: volumeInfo.industryIdentifiers ? volumeInfo.industryIdentifiers.find((identifier:any) => identifier.type === 'ISBN_13').identifier : 'ISBN non disponibile',
-                    dataPubblicazione: volumeInfo.publishedDate || 'Data di pubblicazione non disponibile',
-                    descrizione: volumeInfo.description || 'Descrizione non disponibile',
-                    lingua: volumeInfo.language || 'Lingua non disponibile',
-                    genere: volumeInfo.categories || ['Genere non disponibile'], // Ottenere il genere del libro
-                    immagineMiniatura: volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : 'Nessuna immagine disponibile',
-                    linkAnteprima: volumeInfo.previewLink || 'Anteprima non disponibile',
-                    linkInfo: volumeInfo.infoLink || 'Informazioni non disponibili',
+                    publishYear: volumeInfo.publishedDate || 'Data di pubblicazione non disponibile',
+                    description: volumeInfo.description || 'Descrizione non disponibile',
+                    language: volumeInfo.language || 'Lingua non disponibile',
+                    genre: volumeInfo.categories || ['Genere non disponibile'], // Ottenere il genere del libro
+                    image: volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : 'Nessuna immagine disponibile',
+                    previewLink: volumeInfo.previewLink || 'Anteprima non disponibile',
+                    infoLink: volumeInfo.infoLink || 'Informazioni non disponibili',
                 };
             });
             return libri;
