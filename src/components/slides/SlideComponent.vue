@@ -14,7 +14,7 @@ defineProps({
       <!-- Image occupying the first half of the screen -->
       <img :src="imageUrl" alt="Image" class="image">
     </div>
-    <h1 style="color: #1e1e1e"> {{ title }}</h1>
+    <h1 style="color: #f7f9fc"> {{ title }}</h1>
     <div class="text-container">
       <!-- Text occupying the rest of the screen -->
       <p class="text">
@@ -36,7 +36,7 @@ defineProps({
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 2vh;
 }
 
 .text-container {
@@ -55,6 +55,8 @@ defineProps({
 
 .text {
   text-align: center;
-  font-size: 20px;
+  margin-bottom: 2vh;
+  font-family: 'Segoe UI Semibold';
+  font-size: 2vh;
 }
 </style>
