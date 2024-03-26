@@ -40,8 +40,8 @@
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSearchbar, IonHeader, IonTitle, IonToolbar } from '@ionic/vue';
-import { defineComponent, reactive, computed } from 'vue';
+import { IonPage, IonContent, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSearchbar, IonHeader, IonTitle, IonToolbar, IonImg, IonIcon } from '@ionic/vue';
+import { defineComponent, reactive, computed, ref } from 'vue';
 import { bookSharp } from "ionicons/icons";
 
 interface Item {
@@ -112,11 +112,11 @@ export default defineComponent({
 
     ]);
 
-    const searchTerm = reactive<string>('');
+    const searchTerm = ref('');
 
     const filteredItems = computed(() => {
       if (!searchTerm) return items;
-      return items.filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()));
+      return items.filter(item => item.title.toLowerCase().includes(searchTerm.value.toLowerCase()));
     });
 
     const toggleDescription = (index: number) => {
