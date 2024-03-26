@@ -1,13 +1,10 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
-        <div style="align-content: center">
-          <ion-title style="text-align: left">ARCANAEUM personale</ion-title>
-          <ion-icon :icon="bookSharp()"></ion-icon>
+      <ion-toolbar class="custom-toolbar">
+        <div style="align:left; margin-left:20px">
+          <ion-title class="custom-title" style="text-align: left">ARCANAEUM personale</ion-title>
         </div>
-      </ion-toolbar>
-      <ion-toolbar>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -31,15 +28,103 @@
           <ion-button fill="clear" @click="toggleDescription(index)">{{ item.showMore ? 'Nascondi libro' : 'Mostra libro' }}</ion-button>
         </ion-card>
       </ion-list>
-      <div style="height: 20px;"></div>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-button id="open-action-sheet">
+          <ion-icon :icon="add"></ion-icon>
+        </ion-button>
+      </ion-fab>
+        <ion-action-sheet trigger="open-action-sheet" header="Actions" :buttons="actionSheetButtons"></ion-action-sheet>
+
+      <ion-modal ref="modal" show-backdrop trigger="open-modal-form-1" @willDismiss="onWillDismiss">
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button @click="cancel()">Cancel</ion-button>
+            </ion-buttons>
+            <ion-title>Welcome</ion-title>
+            <ion-buttons slot="end">
+              <ion-button :strong="true" @click="confirm()" :disabled="!areFieldsFilled()">Confirm</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-item>
+            <ion-input
+                ref="input"
+                type="title"
+                label="Title"
+                label-placement="floating"
+                placeholder="Scrivi ..."
+                v-model="addBookTitle"
+            ></ion-input>
+          </ion-item>
+          <br>
+          <ion-item>
+            <ion-input
+                ref="input"
+                type="author"
+                label="Autore"
+                label-placement="floating"
+                placeholder="Scrivi ..."
+                v-model="addBookAuthor"
+            ></ion-input>
+          </ion-item>
+          <br>
+          <ion-item>
+            <ion-input
+                ref="input"
+                type="year"
+                label="Anno"
+                label-placement="floating"
+                placeholder="Scrivi ..."
+                pattern="[0-9]*"
+                v-model="addBookYear"
+            ></ion-input>
+          </ion-item>
+          <br>
+          <ion-item>
+            <ion-input
+                ref="input"
+                type="description"
+                label="Descrizione personale del libro"
+                label-placement="floating"
+                placeholder="Scrivi ..."
+                v-model="addBookDescription"
+            ></ion-input>
+          </ion-item>
+          <br>
+
+              <ion-button fill="clear">
+                Inserisci la copertina
+              </ion-button>
+
+        </ion-content>
+      </ion-modal>
     </ion-content>
   </ion-page>
 </template>
 
-<script lang="ts">
-import { IonPage, IonContent, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonHeader, IonTitle, IonToolbar, IonIcon, IonImg } from '@ionic/vue';
-import { defineComponent, reactive } from 'vue';
-import { bookSharp } from "ionicons/icons";
+<script setup lang="ts">
+import {
+  IonActionSheet,
+  IonPage,
+  IonContent,
+  IonList,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonCardContent,
+  IonButton,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonImg,
+  IonInput, IonItem, IonButtons, IonModal, IonFab, IonIcon
+} from '@ionic/vue';
+import {reactive, ref} from 'vue';
+import {OverlayEventDetail} from "@ionic/core/components";
+import {add} from "ionicons/icons";
 
 interface Item {
   title: string;
@@ -51,29 +136,6 @@ interface Item {
   coverImage: string; // Add cover image property to Item interface
 }
 
-export default defineComponent({
-  methods: {
-    bookSharp() {
-      return bookSharp
-    }
-  },
-  components: {
-    IonImg,
-    IonIcon,
-    IonPage,
-    IonContent,
-    IonList,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardSubtitle,
-    IonCardContent,
-    IonButton,
-    IonHeader,
-    IonTitle,
-    IonToolbar
-  },
-  setup() {
     const items = reactive<Item[]>([
       {
         title: "Siddhartha",
@@ -121,14 +183,67 @@ export default defineComponent({
       },
 
     ]);
+    const actionSheetButtons = [
+      {
+        text: 'Aggiungi manualmente',
+        id: 'open-modal-form-1',
+        data: {
+          action: 'addManually',
+        },
+      },
+      {
+        text: 'Cerca nel catalogo',
+        id: 'open-modal-catalgue',
+        data: {
+          action: 'searchToAdd',
+        },
+      },
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        data: {
+          action: 'cancel',
+        },
+      },
+    ];
+
+
 
     const toggleDescription = (index: number) => {
       items[index].showMore = !items[index].showMore;
     };
 
-    return { items, toggleDescription };
-  },
-});
+const modal = ref();
+const input = ref();
+const message = ref('This modal example uses triggers to automatically open a modal when the button is clicked.');
+
+const addBookTitle = ref("");
+const addBookAuthor = ref("");
+const addBookYear = ref("");
+const addBookDescription = ref("");
+
+function printCiao() {
+  console.log(addBookTitle.value);
+}
+
+const cancel = () => modal.value.$el.dismiss(null, 'cancel');
+
+const confirm = () => {
+  const name = input.value.$el.value;
+  modal.value.$el.dismiss(name, 'confirm');
+};
+
+const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
+  if (ev.detail.role === 'confirm') {
+    message.value = `Hello, ${ev.detail.data}!`;
+  }
+};
+const areFieldsFilled = () => {
+  return addBookTitle.value.trim() !== "" &&
+      addBookAuthor.value.trim() !== "" &&
+      addBookYear.value.trim() !== "" &&
+      addBookDescription.value.trim() !== "";
+};
 </script>
 
 <style>
@@ -146,4 +261,31 @@ svg {
 ion-card-content {
   transition: max-height 0.3s ease;
 }
+
+ion-modal {
+  --height: 50%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-modal::part(backdrop) {
+  background: rgba(209, 213, 219);
+  opacity: 1;
+}
+
+ion-modal ion-toolbar {
+  --background: rgb(14 116 144);
+  --color: white;
+}
+.custom-toolbar {
+  --min-height: 40px; /* Modifica l'altezza minima della toolbar */
+}
+
+.custom-title {
+  font-size: 18px; /* Riduci la dimensione del font del titolo */
+}
+  * {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
 </style>
