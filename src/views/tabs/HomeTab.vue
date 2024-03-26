@@ -8,33 +8,30 @@
         </div>
       </ion-toolbar>
       <ion-toolbar>
-        <ion-searchbar></ion-searchbar>
+        <ion-searchbar v-model="searchTerm" @input="updateFilteredItems"></ion-searchbar>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-card v-for="(item, index) in items" :key="index">
+        <ion-card v-for="(item, index) in filteredItems" :key="index">
           <ion-card-header>
-            <!-- Add image above the card subtitle -->
-
-            <ion-card-title>Card Title {{ index + 1 }}</ion-card-title>
-            <ion-card-subtitle>Card Subtitle {{ index + 1 }}</ion-card-subtitle>
+            <ion-card-title>{{ item.title }}</ion-card-title>
+            <ion-card-subtitle>{{ item.year }}</ion-card-subtitle>
             <ion-img :src="item.coverImage" style="max-width: 100%;"></ion-img>
           </ion-card-header>
 
           <ion-card-content :style="{ maxHeight: item.showMore ? 'none' : '50px', overflow: item.showMore ? 'none' : 'hidden', transition: 'max-height 0.3s' }">
             <template v-if="!item.showMore">
-              Here's a small text description for the card content. Nothing more, nothing less.
+              {{ item.shortDescription }}
             </template>
             <template v-else>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus efficitur metus ac accumsan.
-              Vestibulum quis ex nec mi eleifend elementum. In hac habitasse platea dictumst. Duis tincidunt
-              lobortis augue. Sed nec justo eu leo ultricies bibendum. Mauris sit amet dolor velit. Nullam
-              ultricies nunc id nulla feugiat, ut lacinia ex malesuada.
+              {{ item.longDescription }}
             </template>
           </ion-card-content>
 
-          <ion-button fill="clear" @click="toggleDescription(index)">{{ item.showMore ? 'Nascondi libro' : 'Mostra libro' }}</ion-button>
+          <ion-button fill="clear" @click="toggleDescription(index)">
+            {{ item.showMore ? 'Nascondi libro' : 'Mostra libro' }}
+          </ion-button>
         </ion-card>
       </ion-list>
       <div style="height: 20px;"></div>
@@ -44,19 +41,22 @@
 
 <script lang="ts">
 import { IonPage, IonContent, IonList, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonSearchbar, IonHeader, IonTitle, IonToolbar } from '@ionic/vue';
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { bookSharp } from "ionicons/icons";
 
 interface Item {
   title: string;
+  year: number;
+  shortDescription: string;
+  longDescription: string;
   showMore: boolean;
-  coverImage: string; // Add cover image property to Item interface
+  coverImage: string;
 }
 
 export default defineComponent({
   methods: {
     bookSharp() {
-      return bookSharp
+      return bookSharp;
     }
   },
   components: {
@@ -75,18 +75,59 @@ export default defineComponent({
     IonToolbar
   },
   setup() {
-    const items = reactive<Item[]>([]);
+    const items = reactive<Item[]>([
+      {
+        title: 'Title 1',
+        year: 2022,
+        shortDescription: 'Short description for item 1',
+        longDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam in turpis velit. Praesent vitae leo lorem. Phasellus aliquet vitae odio non maximus. Integer ac scelerisque nulla. Phasellus vel magna quis erat tincidunt consectetur. Duis rhoncus venenatis tempus. Curabitur viverra cursus sapien non ultricies. Pellentesque blandit ipsum enim.',
+        showMore: false,
+        coverImage: 'item-cover-1.jpg'
+      },
+      // Add more items as needed
+      {
+        title: 'Libro',
+        year: 2022,
+        shortDescription: 'Short description for item 1',
+        longDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam in turpis velit. Praesent vitae leo lorem. Phasellus aliquet vitae odio non maximus. Integer ac scelerisque nulla. Phasellus vel magna quis erat tincidunt consectetur. Duis rhoncus venenatis tempus. Curabitur viverra cursus sapien non ultricies. Pellentesque blandit ipsum enim.',
+        showMore: false,
+        coverImage: 'item-cover-1.jpg'
+      },
+      {
+        title: 'Orient',
+        year: 2022,
+        shortDescription: 'Short description for item 1',
+        longDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam in turpis velit. Praesent vitae leo lorem. Phasellus aliquet vitae odio non maximus. Integer ac scelerisque nulla. Phasellus vel magna quis erat tincidunt consectetur. Duis rhoncus venenatis tempus. Curabitur viverra cursus sapien non ultricies. Pellentesque blandit ipsum enim.',
+        showMore: false,
+        coverImage: 'item-cover-1.jpg'
+      },
+      {
+        title: 'Title 3',
+        year: 2022,
+        shortDescription: 'Short description for item 1',
+        longDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam in turpis velit. Praesent vitae leo lorem. Phasellus aliquet vitae odio non maximus. Integer ac scelerisque nulla. Phasellus vel magna quis erat tincidunt consectetur. Duis rhoncus venenatis tempus. Curabitur viverra cursus sapien non ultricies. Pellentesque blandit ipsum enim.',
+        showMore: false,
+        coverImage: 'item-cover-1.jpg'
+      },
 
-    for (let i = 1; i < 11; i++) {
-      // You should replace 'item-cover.jpg' with the actual cover image URL
-      items.push({ title: `Item ${i}`, showMore: false, coverImage: 'item-cover.jpg' });
-    }
+    ]);
+
+    const searchTerm = reactive<string>('');
+
+    const filteredItems = computed(() => {
+      if (!searchTerm) return items;
+      return items.filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    });
 
     const toggleDescription = (index: number) => {
       items[index].showMore = !items[index].showMore;
     };
 
-    return { items, toggleDescription };
+    const updateFilteredItems = (event: any) => {
+      searchTerm.value = event.target.value;
+    };
+
+    return { searchTerm, filteredItems, toggleDescription, updateFilteredItems };
   },
 });
 </script>
