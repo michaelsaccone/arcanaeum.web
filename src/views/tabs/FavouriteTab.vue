@@ -55,19 +55,6 @@
           </ion-row>
 
         </ion-content>
-        <ion-content>
-          <ion-grid style="text-align: center; margin-right: 30px">
-            <ion-row>
-              <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
-                <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }" @click="displayGenre(genre)">
-                  {{ genre }}
-                  <ion-ripple-effect></ion-ripple-effect>
-                </div>
-              </ion-col>
-
-            </ion-row>
-          </ion-grid>
-        </ion-content>
       </ion-modal>
 
     </ion-content>
@@ -75,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonThumbnail, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonReorder, IonReorderGroup, IonImg, IonModal, IonFab, IonButton, IonButtons, IonInput, IonFabButton } from '@ionic/vue';
+import { IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonModal, IonFab, IonButton, IonButtons, IonInput, IonFabButton, IonRow } from '@ionic/vue';
 import {add} from "ionicons/icons";
 import { ref } from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
