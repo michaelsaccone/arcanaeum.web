@@ -6,29 +6,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-reorder-group :disabled="false" @ionItemReorder="handleReorder($event)">
-          <ion-item :key="i" v-for="i in items">
-            <ion-thumbnail slot="start">
-              <ion-img src="/resources/libroBG.png" >
-              </ion-img>
-            </ion-thumbnail>
-            <ion-label>
-              <h3>{{ i }}</h3>
-              <p>The Beatles</p>
-              <p>1969</p>
-            </ion-label>
-            <ion-reorder slot="end"></ion-reorder>
-          </ion-item>
-          <ion-item>
-            <ion-label> Item 4 </ion-label>
-            <ion-reorder slot="end"></ion-reorder>
-          </ion-item>
 
-          <ion-item>
-            <ion-label> Item 5 </ion-label>
-            <ion-reorder slot="end"></ion-reorder>
-          </ion-item>
-      </ion-reorder-group>
+      <book-list :books="books" />
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button id="open-modal" @click="printCiao">
@@ -104,14 +83,38 @@ import { IonThumbnail, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonCon
 import {add} from "ionicons/icons";
 import { ref } from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
+import BookList from "@/components/BookList.vue";
+import Book from "@/models/Book";
 
-const items = [
-  "Ciao",
-  "ciao 2",
-  "cherubini routing",
-  "Carleschi",
-  "stringa"
-];
+const books: Array<Book> = [
+  {
+    title: "Orlando Furioso",
+    author: "Ludovico Arioso",
+    publishYear: "1561",
+    image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
+    isbn: "12313123",
+    description: "YAP YAP YAP",
+    genre: "romanzo, cavalleresco"
+  },
+  {
+    title: "Orlando Yapper",
+    author: "Ludovico Arioso",
+    publishYear: "1561",
+    image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
+    isbn: "12313123",
+    description: "YAP YAP YAP",
+    genre: "romanzo, cavalleresco"
+  },
+  {
+    title: "Orlando Bortolox",
+    author: "Ludovico Arioso",
+    publishYear: "1561",
+    image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
+    isbn: "12313123",
+    description: "YAP YAP YAP",
+    genre: "romanzo, cavalleresco"
+  }
+]
 
 const modal = ref();
 const input = ref();
@@ -122,10 +125,6 @@ const addBookText = ref("ciao ");
 function printCiao() {
   console.log(addBookText.value);
 }
-const handleReorder = (event: CustomEvent) => {
-  console.log('Dragged from index', event.detail.from, 'to', event.detail.to);
-  event.detail.complete();
-};
 
 const cancel = () => modal.value.$el.dismiss(null, 'cancel');
 

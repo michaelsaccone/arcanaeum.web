@@ -7,11 +7,13 @@ import RecommendationPage from "@/views/tabs/RecommendationTab.vue";
 import AccountPreferencesPage from "@/views/preferences/AccountPreferencesPage.vue";
 import FamilyPreferencesPage from '@/views/preferences/FamilyPreferencesPage.vue';
 import ShopTab from "@/views/tabs/ShopTab.vue";
+import ComingSoonPage from "@/views/ComingSoonPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/tabs/home',
+    // TODO: add beforeEnter. If not Logged push to login
   },
   {
     path: '/login',
@@ -26,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     component: SetFamilyPage
   },
   {
-    path: '/account-preferencies',
+    path: '/account-preferences',
     component: AccountPreferencesPage
   },
   {
@@ -59,7 +61,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'swipe',
-        component: RecommendationPage
+        component: ComingSoonPage
       }
     ]
   }
