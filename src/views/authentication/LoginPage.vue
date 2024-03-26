@@ -155,7 +155,7 @@ import {
   IonInput,
   IonToast,
 } from "@ionic/vue";
-import {register} from "@/logic/auth";
+import {register, classicLogin } from "@/logic/auth";
 import router from "@/router";
 
 const name = ref("");
@@ -190,30 +190,39 @@ const enableSignup = () => {
   title.value = 'Registrati';
 };
 
-const onLogin = () => {
+const onLogin = async () => {
   submitted.value = true;
-  if (usernameValid.value && passwordValid.value) {
-    console.log("LOGIN EFFETTUATO CON SUCCESSO")
-    router.push("/tabs/home");
+  try {
+    await classicLogin(email.value, password.value);
+    router.push("/tabs/home")
+  } catch (error) {
+    // TODO: Toast notification for login error
+  } finally {
+    resetFields();
   }
 };
 
 const onSignup = async () => {
-  toastMessage.value = "Successfully logged in!";
+  try {
+    const a = await register(name.value, surname.value, email.value, password.value);
+    console.log("REGISTRATO ", a);
+    toastMessage.value = "Registrato con successo";
+  } catch (error) {
+    toastMessage.value = "Errore di registrazione!";
+    // TODO: Toast notification for login error
+  } finally {
+    showToast.value = true;
+    signupEnabled.value = false;
+    resetFields();
+  }
+};
 
-  const a = await register(name.value, surname.value, email.value, password.value);
-
-  console.log("REGISTRATO ", a);
-
-  showToast.value = true;
-  signupEnabled.value = false;
+function resetFields() {
   name.value = "";
   surname.value = "";
   email.value = "";
   password.value = "";
-
-};
-
+}
 
 </script>
 

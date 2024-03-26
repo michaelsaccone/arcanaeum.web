@@ -27,9 +27,6 @@ import './theme/variables.css';
 import { register } from 'swiper/element/bundle';
 register();
 
-import storage from "@/plugins/storage";
-provide('store', storage);
-
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
