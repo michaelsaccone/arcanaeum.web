@@ -39,5 +39,5 @@
 
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import {addCircleOutline, bag, home, peopleOutline, settings} from 'ionicons/icons';
+import {addCircleOutline, bag, home, settings} from 'ionicons/icons';
 </script>
