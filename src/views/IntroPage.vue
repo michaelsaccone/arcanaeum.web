@@ -11,20 +11,26 @@
           @reachEnd="isLastSlide = true"
           @slideChange="onSlideChange"
       >
-        <swiper-slide style="background-color: #2fdf75">
-          <slide1/>
+        <swiper-slide style="background-color: #1a65eb">
+          <slide image-url="/resources/imageSlide1.png" title="CATALOGA">
+            CIAO 1
+          </slide>
         </swiper-slide>
 
-        <swiper-slide style="background-color: #6a64ff">
-          <slide2/>
+        <swiper-slide style="background-color: #7045ff">
+          <slide image-url="/resources/imageSlide1.png" title="LEGGI">
+            CIAO 2
+          </slide>
         </swiper-slide>
 
-        <swiper-slide style="background-color: #cf3c4f">
-          <slide3/>
+        <swiper-slide style="background-color: #42d96b">
+          <slide image-url="/resources/imageSlide1.png" title="SCOPRI">
+            CIAO 3
+          </slide>
         </swiper-slide>
       </swiper>
       <ion-fab slot="fixed" vertical="bottom" horizontal="center" style="margin-bottom: 25px">
-        <ion-button style="width: 95vw" shape="round" fill="default" strong color="dark" href="/login">
+        <ion-button style="width: 60vw; height: 6vh" shape="round" fill="default" strong color="dark" href="/login">
           {{ isLastSlide ? 'Accedi' : 'Salta' }}
         </ion-button>
       </ion-fab>
@@ -39,9 +45,7 @@ import {
   IonPage,
 } from '@ionic/vue';
 import 'swiper/css';
-import Slide1 from "@/components/slides/slide1.vue";
-import Slide2 from "@/components/slides/slide2.vue";
-import Slide3 from "@/components/slides/slide3.vue";
+import Slide from "@/components/slides/SlideComponent.vue";
 import 'swiper/css';
 
 import 'swiper/css/pagination';
@@ -50,8 +54,8 @@ import {ref} from "vue";
 
 const modules = [ Pagination ];
 
-const isLastSlide = ref(false);
 
+const isLastSlide = ref(false);
 function onSlideChange(event: any) {
   // console.log(event.isEnd)
   if(event.isEnd)
@@ -70,7 +74,6 @@ function onSlideChange(event: any) {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-
 
   display: flex;
   justify-content: center;

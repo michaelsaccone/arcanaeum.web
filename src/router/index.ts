@@ -8,6 +8,7 @@ import FamilyPreferencesPage from '@/views/preferences/FamilyPreferencesPage.vue
 import ShopTab from "@/views/tabs/ShopTab.vue";
 import ComingSoonPage from "@/views/ComingSoonPage.vue";
 import ReadBooksPreferencesPage from '@/views/preferences/ReadBooksPreferencesPage.vue';
+import RecommendationTab from "@/views/tabs/RecommendationTab.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {

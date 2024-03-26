@@ -1,15 +1,25 @@
 <script setup lang="ts">
+
+defineProps({
+  imageUrl: String,
+  title: String
+})
+
+
 </script>
 
 <template>
   <div class="container">
     <div class="image-container">
       <!-- Image occupying the first half of the screen -->
-      <img src="/resources/imageSlide1.png" alt="Image" class="image">
+      <img :src="imageUrl" alt="Image" class="image">
     </div>
+    <h1 style="color: #f7f9fc"> {{ title }}</h1>
     <div class="text-container">
       <!-- Text occupying the rest of the screen -->
-      <p class="text">Dai classici intramontabili ai bestseller contemporanei, LibriLibri è la tua destinazione per un viaggio senza fine nel mondo della letteratura. Entra e lasciati trasportare dalla magia delle parole.</p>
+      <p class="text">
+        <slot></slot>
+      </p>
     </div>
   </div>
 </template>
@@ -26,7 +36,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 2vh;
 }
 
 .text-container {
@@ -45,6 +55,8 @@
 
 .text {
   text-align: center;
-  font-size: 20px;
+  margin-bottom: 2vh;
+  font-family: 'Segoe UI Semibold';
+  font-size: 2vh;
 }
 </style>

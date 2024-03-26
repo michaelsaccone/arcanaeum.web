@@ -37,22 +37,12 @@
                 type="text"
                 placeholder="Scrivi ..."
                 v-model="addBookText"
+                @change="searchBooks"
             ></ion-input>
+            <ion-popover :is-open="openPopover">
+              <book-list :books="books" />
+            </ion-popover>
           </ion-item>
-          <ion-row>
-            <!--            <ion-col>-->
-            <!--              <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }">-->
-            <!--                LIBRO CASUALE-->
-            <!--                <ion-ripple-effect></ion-ripple-effect>-->
-            <!--              </div>-->
-            <!--            </ion-col>-->
-            <!--            <ion-col>-->
-            <!--              <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }">-->
-            <!--                LIBRO CASUALE-->
-            <!--                <ion-ripple-effect></ion-ripple-effect>-->
-            <!--              </div>-->
-            <!--            </ion-col>-->
-          </ion-row>
 
         </ion-content>
         <ion-content>
@@ -77,49 +67,32 @@
 <script setup lang="ts">
 import { IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonModal, IonFab, IonButton, IonButtons, IonInput, IonFabButton, IonRippleEffect, IonGrid, IonCol, IonRow } from '@ionic/vue';
 import {add} from "ionicons/icons";
-import { ref } from 'vue';
+import {Ref, ref} from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
 import BookList from "@/components/BookList.vue";
 import Book from "@/models/Book";
+import bookScraper from "@/logic/bookScraper";
 
-const books: Array<Book> = [
-  {
-    title: "La Divina Commedia",
-    author: "Dante Alighieri",
-    publishYear: "1314",
-    image: "https://m.media-amazon.com/images/I/61e-YhRBCQL._AC_UF1000,1000_QL80_.jpg",
-    isbn: "12313123",
-    description: "YAP YAP YAP",
-    genre: "romanzo, cavalleresco"
-  },
-  {
-    title: "Il Divino Yapper",
-    author: "Dante the Yapper",
-    publishYear: "1314",
-    image: "https://m.media-amazon.com/images/I/61e-YhRBCQL._AC_UF1000,1000_QL80_.jpg",
-    isbn: "12313123",
-    description: "YAP YAP YAP",
-    genre: "romanzo, cavalleresco"
-  },
-  {
-    title: "Comedy in da hood",
-    author: "Lil Dante",
-    publishYear: "1314",
-    image: "https://m.media-amazon.com/images/I/61e-YhRBCQL._AC_UF1000,1000_QL80_.jpg",
-    isbn: "12313123",
-    description: "YAP YAP YAP",
-    genre: "romanzo, cavalleresco"
-  }
-]
+const bookScraperObject = new bookScraper();
+
+const openPopover = ref(false);
 
 const modal = ref();
 const input = ref();
 const message = ref('This modal example uses triggers to automatically open a modal when the button is clicked.');
 
+const books: Ref<Array<Book>> = ref([])
+
 const addBookText = ref("");
 
 function printCiao() {
   console.log(addBookText.value);
+}
+
+async function searchBooks() {
+  console.log(input.value.$el.value);
+  openPopover.value = true;
+  books.value = await bookScraperObject.cercaLibriFinale(input.value.$el.value);
 }
 
 const cancel = () => modal.value.$el.dismiss(null, 'cancel');

@@ -60,7 +60,6 @@ import {onMounted} from "vue";
 
 // Codice per ottenere oggetto dallo storage
 onMounted(async () => {
-  console.log("Mounting...")
   loggedUser.value = await storage.get('user')
 })
 const loggedUser: Ref<LoggedUser | null> = ref(null);

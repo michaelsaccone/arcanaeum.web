@@ -25,8 +25,10 @@
     "firebase": "^10.9.0",
     "gsap": "^3.12.5",
     "ionicons": "^7.0.0",
+    "qrcode.vue": "^3.4.1",
     "swiper": "^11.0.7",
     "vue": "^3.3.0",
+    "vue-qrcode-component": "^2.1.1",
     "vue-router": "^4.0.0",
     "vue-scroll-snap": "^0.1.11",
     "vuex": "^4.1.0"

@@ -50,7 +50,7 @@
       </form>
 
 
-      <form novalidate @submit.prevent="onLogin" v-else>
+      <form novalidate @submit.prevent="onSignup" v-else>
         <ion-list>
           <ion-item class="input-box">
             <ion-input
@@ -165,11 +165,7 @@ const password = ref("");
 const submitted = ref(false);
 
 const title = ref('Login');
-
 const signupEnabled = ref(false);
-
-const usernameValid = ref(true);
-const passwordValid = ref(true);
 
 const showToast = ref(false);
 const toastMessage = ref("");
@@ -177,7 +173,6 @@ const toastMessage = ref("");
 const canSubmit = computed(
     () => email.value.trim() !== "" && password.value.trim() !== ""
 );
-
 
 const disableSignup = () => {
   signupEnabled.value = false;
@@ -194,7 +189,7 @@ const onLogin = async () => {
   submitted.value = true;
   try {
     await classicLogin(email.value, password.value);
-    router.push("/tabs/home")
+    await router.replace("/tabs/home")
   } catch (error) {
     // TODO: Toast notification for login error
   } finally {
@@ -209,10 +204,9 @@ const onSignup = async () => {
     toastMessage.value = "Registrato con successo";
   } catch (error) {
     toastMessage.value = "Errore di registrazione!";
-    // TODO: Toast notification for login error
+    router.go(0)
   } finally {
     showToast.value = true;
-    signupEnabled.value = false;
     resetFields();
   }
 };
