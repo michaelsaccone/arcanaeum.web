@@ -13,7 +13,7 @@
       <ion-list>
         <ion-item v-for="member in filteredMembers" :key="member.id">
           <ion-avatar slot="start">
-            <ion-img :src="member.avatar"></ion-img>
+            <ion-icon :src="member.avatar" size="large"></ion-icon>
           </ion-avatar>
           <ion-label>
             <h2>{{ member.name }}</h2>
@@ -24,7 +24,7 @@
     </ion-content>
     <ion-footer>
       <ion-toolbar style="text-align: center;">
-        <ion-button @click="openCreateFamilyModal" id="open-modal" shape="round">Crea Famiglia</ion-button>
+        <ion-button @click="isCreateFamilyModalOpen = true; familyName = ''; " id="open-modal" shape="round">Crea Famiglia</ion-button>
       </ion-toolbar>
     </ion-footer>
 
@@ -37,23 +37,23 @@
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content>
+      <ion-content style="justify-content: center">
         <ion-item>
           <ion-input v-model="familyName" placeholder="Nome della famiglia"></ion-input>
         </ion-item>
         <br>
-        <ion-button id="popover-button" color="danger" shape="round" strong > <center>Scegli icona</center></ion-button>
-        <ion-popover trigger="popover-button" dismiss-on-select style="">
-          <ion-content>
-            <ion-list>
-              <ion-radio-group v-model="selectedIcon">
-                <ion-item v-for="icon in iconsArray" :key="icon">
-                  <ion-radio :value="icon"><ion-icon size="large" :icon="icon"> &nbsp;</ion-icon></ion-radio>
-                </ion-item>
-              </ion-radio-group>
-            </ion-list>
-          </ion-content>
-        </ion-popover>
+          <ion-button id="popover-button" color="danger" shape="round" strong >Scegli icona</ion-button>
+          <ion-popover trigger="popover-button" dismiss-on-select size="cover" >
+            <ion-content>
+              <ion-list>
+                <ion-radio-group v-model="selectedIcon">
+                  <ion-item v-for="icon in iconsArray" :key="icon">
+                    <ion-radio :value="icon"><ion-icon size="large" :icon="icon"> &nbsp;</ion-icon></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </ion-content>
+          </ion-popover>
         <ion-icon :icon="selectedIcon" class="displayedIcon" > </ion-icon>
         <ion-button @click="createFamily" expand="block" style="margin-top: 20px" :disabled="selectedIcon === ''">Crea</ion-button>
       </ion-content>
@@ -90,7 +90,7 @@ import {fish, flame, happy, pizza, skull, thumbsUp} from "ionicons/icons";
 
 // Dati dei membri della famiglia
 const members = ref([
-  { id: 1, name: 'Esempio famiglia', role: 'Famiglia' }
+  { id: 1, name: 'Esempio famiglia', role: 'Famiglia', avatar: fish },
 ]);
 
 
@@ -116,10 +116,6 @@ function stampaIcona() {
   console.log(selectedIcon.value)
 }
 
-function openCreateFamilyModal() {
-  isCreateFamilyModalOpen.value = true;
-}
-
 function closeCreateFamilyModal() {
   isCreateFamilyModalOpen.value = false;
 }
@@ -130,7 +126,7 @@ function createFamily() {
     if (existingFamily) {
       showToastMessage("Non puoi creare una famiglia con lo stesso nome");
     } else {
-      members.value.push({ id: members.value.length + 1, name: familyName.value, role: 'Famiglia' });
+      members.value.push({ id: members.value.length + 1, name: familyName.value, role: 'Famiglia', avatar: selectedIcon.value});
       closeCreateFamilyModal();
     }
   }
