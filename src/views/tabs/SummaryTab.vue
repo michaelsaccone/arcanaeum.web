@@ -116,7 +116,7 @@ const modal = ref();
 const input = ref();
 const message = ref('This modal example uses triggers to automatically open a modal when the button is clicked.');
 
-const addBookText = ref("ciao ");
+const addBookText = ref("");
 
 function printCiao() {
   console.log(addBookText.value);
