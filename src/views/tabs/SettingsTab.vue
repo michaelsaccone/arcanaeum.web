@@ -45,7 +45,7 @@
         <ion-item color="light">
           <ion-input v-model="username" label="Nome Utente" labelPlacement="stacked" placeholder="Inserisci il tuo nome utente"></ion-input>
         </ion-item>
-        <ion-item href="/account-preferencies" color="light">
+        <ion-item href="/account-preferences" color="light">
           <ion-label>Cambia le mie preferenze</ion-label>
           <ion-icon slot="end" :icon="arrowForwardOutlineIcon"></ion-icon>
         </ion-item>

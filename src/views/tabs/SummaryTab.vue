@@ -39,6 +39,34 @@
                 v-model="addBookText"
             ></ion-input>
           </ion-item>
+          <ion-row>
+            <!--            <ion-col>-->
+            <!--              <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }">-->
+            <!--                LIBRO CASUALE-->
+            <!--                <ion-ripple-effect></ion-ripple-effect>-->
+            <!--              </div>-->
+            <!--            </ion-col>-->
+            <!--            <ion-col>-->
+            <!--              <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }">-->
+            <!--                LIBRO CASUALE-->
+            <!--                <ion-ripple-effect></ion-ripple-effect>-->
+            <!--              </div>-->
+            <!--            </ion-col>-->
+          </ion-row>
+
+        </ion-content>
+        <ion-content>
+          <ion-grid style="text-align: center; margin-right: 30px">
+            <ion-row>
+              <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
+                <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }" @click="displayGenre(genre)">
+                  {{ genre }}
+                  <ion-ripple-effect></ion-ripple-effect>
+                </div>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
         </ion-content>
       </ion-modal>
 
@@ -107,4 +135,56 @@ const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
   }
 };
 
+const BookGenres = ['Fiction', 'Non-Fiction', 'Mystery', 'Fantasy', 'Science Fiction', 'Romance', 'Horror', 'Thriller', 'Historical', 'Biography', 'Autobiography',
+  'Self-Help', 'Cookbook', 'Travel', 'Poetry', 'Graphic Novel', 'Comic', 'Manga', 'Art', 'Photography', 'Music', 'Film', 'Theatre', 'Dance',
+  'Craft', 'Hobby', 'Sport', 'Fitness', 'Health', 'Wellness', 'Mindfulness', 'Spirituality', 'Religion', 'Philosophy', 'History', 'Politics', 'Economics', 'Sociology', 'Psychology',
+  'Science', 'Mathematics', 'Technology', 'Engineering', 'Medicine', 'Law', 'Education', 'Language', 'Literature', 'Business', 'Finance', 'Marketing'];
+
+const getRandomColor = () => {
+  const minBrightness = 120; // minimo valore di luminosità
+  const maxBrightness = 150; // massimo valore di luminosità
+  const minColorValue = 0; // minimo valore di colore
+  const maxColorValue = 150; // massimo valore di colore
+
+  const randomColorValue = () => Math.floor(Math.random() * (maxColorValue - minColorValue + 1)) + minColorValue;
+  const randomBrightness = () => Math.floor(Math.random() * (maxBrightness - minBrightness + 1)) + minBrightness;
+
+  const red = randomColorValue();
+  const green = randomColorValue();
+  const blue = randomColorValue();
+  const brightness = randomBrightness();
+
+  return `rgb(${red},${green},${blue},${brightness}%)`;
+};
+
+const clickedGenre = ref('');
+
+const displayGenre = (genre:string) => {
+  clickedGenre.value = genre;
+  console.log(clickedGenre.value);
+};
+
 </script>
+
+<style scoped>
+
+.ripple-parent {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.rounded-rectangle {
+  margin: 20px;
+  width: 95%;
+  height: 125px;
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+}
+
+</style>
