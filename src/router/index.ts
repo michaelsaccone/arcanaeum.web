@@ -5,6 +5,8 @@ import SetFamilyPage from "@/views/SetFamilyPage.vue";
 import IntroSlides from "@/views/IntroPage.vue";
 import RecommendationPage from "@/views/tabs/RecommendationTab.vue";
 import AccountPreferencesPage from "@/views/preferences/AccountPreferencesPage.vue";
+import FamilyPreferencesPage from '@/views/preferences/FamilyPreferencesPage.vue';
+import ReadBooksPreferencesPage from '@/views/preferences/ReadBooksPreferencesPage.vue';
 import FamilyTab from "@/views/tabs/FamilyTab.vue";
 
 const routes: Array<RouteRecordRaw> = [
@@ -27,6 +29,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/account-preferencies',
     component: AccountPreferencesPage
+  },
+  {
+    path: '/family-settings',
+    component: FamilyPreferencesPage
+  },
+  {
+    path: '/read-books',
+    component: ReadBooksPreferencesPage
   },
   {
     path: '/tabs/',
