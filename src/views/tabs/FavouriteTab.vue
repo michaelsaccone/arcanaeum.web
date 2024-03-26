@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Preferiti</ion-title>
+        <ion-title>Preferiti, ciao {{ loggedUser?.name }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -39,21 +39,6 @@
                 v-model="addBookText"
             ></ion-input>
           </ion-item>
-          <ion-row>
-            <!--            <ion-col>-->
-            <!--              <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }">-->
-            <!--                LIBRO CASUALE-->
-            <!--                <ion-ripple-effect></ion-ripple-effect>-->
-            <!--              </div>-->
-            <!--            </ion-col>-->
-            <!--            <ion-col>-->
-            <!--              <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }">-->
-            <!--                LIBRO CASUALE-->
-            <!--                <ion-ripple-effect></ion-ripple-effect>-->
-            <!--              </div>-->
-            <!--            </ion-col>-->
-          </ion-row>
-
         </ion-content>
         <ion-content>
           <ion-grid style="text-align: center; margin-right: 30px">
@@ -75,12 +60,24 @@
 </template>
 
 <script setup lang="ts">
-import { IonThumbnail, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonReorder, IonReorderGroup, IonImg, IonModal, IonFab, IonButton, IonButtons, IonInput, IonFabButton } from '@ionic/vue';
+import { IonRippleEffect, IonCol, IonRow, IonGrid, IonIcon, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonReorder, IonReorderGroup, IonImg, IonModal, IonFab, IonButton, IonButtons, IonInput, IonFabButton } from '@ionic/vue';
 import {add} from "ionicons/icons";
-import { ref } from 'vue';
+import {Ref, ref} from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
 import BookList from "@/components/BookList.vue";
 import Book from "@/models/Book";
+import storage from "@/plugins/storage";
+import LoggedUser from "@/models/LoggedUser";
+import {onMounted} from "vue";
+
+
+// Codice per ottenere oggetto dallo storage
+onMounted(async () => {
+  console.log("Mounting...")
+  loggedUser.value = await storage.get('user')
+})
+const loggedUser: Ref<LoggedUser | null> = ref(null);
+
 
 const books: Array<Book> = [
   {
