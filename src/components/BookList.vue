@@ -18,8 +18,7 @@ const handleReorder = (event: CustomEvent) => {
   <ion-reorder-group :disabled="false" @ionItemReorder="handleReorder($event)">
     <ion-item :key="b.isbn" v-for="b in books">
       <ion-thumbnail slot="start">
-        <ion-img :src="b.image" >
-        </ion-img>
+        <img :src="b.image" />
       </ion-thumbnail>
       <ion-label>
         <h3>{{ b.title }}</h3>

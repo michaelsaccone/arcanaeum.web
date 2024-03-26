@@ -5,6 +5,4 @@ const storage = new Storage({
     driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage]
 });
 
-await storage.create();
-
 export default storage;

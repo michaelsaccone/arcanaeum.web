@@ -1,7 +1,7 @@
 
 interface Book {
     title: string;
-    isbn: string | null;
+    isbn: string;
     author: string;
     publishYear: string;
     genre: string;

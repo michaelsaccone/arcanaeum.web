@@ -27,10 +27,16 @@ import './theme/variables.css';
 import { register } from 'swiper/element/bundle';
 register();
 
+import storage from "@/plugins/storage";
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
-  
+
+storage.create().then((storage) => {
+  app.provide('store', storage);
+})
+
 router.isReady().then(() => {
   app.mount('#app');
 });

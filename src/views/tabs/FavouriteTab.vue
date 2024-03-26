@@ -53,10 +53,11 @@ import {Ref, ref} from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
 import BookList from "@/components/BookList.vue";
 import Book from "@/models/Book";
-import storage from "@/plugins/storage";
 import LoggedUser from "@/models/LoggedUser";
-import {onMounted} from "vue";
+import {onMounted, inject} from "vue";
 
+
+const storage = <Storage>inject('store');
 
 // Codice per ottenere oggetto dallo storage
 onMounted(async () => {
