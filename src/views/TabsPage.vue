@@ -24,8 +24,8 @@
         </ion-tab-button>
 
         <ion-tab-button tab="tab4" href="/tabs/shop">
-          <ion-icon aria-hidden="true" :icon="bag" />
-          <ion-label>Spesa</ion-label>
+          <ion-icon aria-hidden="true" :icon="search" />
+          <ion-label>Esplora</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="tab5" href="/tabs/settings">
@@ -39,5 +39,15 @@
 
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import {addCircleOutline, bag, bookmark, bookmarkOutline, heart, home, peopleOutline, settings} from 'ionicons/icons';
+import {
+  addCircleOutline,
+  bag,
+  bookmark,
+  bookmarkOutline,
+  heart,
+  home,
+  peopleOutline,
+  search,
+  settings
+} from 'ionicons/icons';
 </script>

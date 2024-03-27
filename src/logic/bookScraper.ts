@@ -47,7 +47,7 @@ class bookScraper {
                     publishYear: volumeInfo.publishedDate || 'Data di pubblicazione non disponibile',
                     description: volumeInfo.description || 'Descrizione non disponibile',
                     language: volumeInfo.language || 'Lingua non disponibile',
-                    genre: volumeInfo.categories || ['Genere non disponibile'],
+                    genres: volumeInfo.categories || ['Genere non disponibile'],
                     image: volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : 'Nessuna immagine disponibile',
                     previewLink: volumeInfo.previewLink || 'Anteprima non disponibile',
                     infoLink: volumeInfo.infoLink || 'Informazioni non disponibili',
