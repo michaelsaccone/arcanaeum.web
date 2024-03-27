@@ -54,7 +54,7 @@
           <ion-icon slot="end" :icon="arrowForwardOutlineIcon"></ion-icon>
         </ion-item>
         <ion-item color="light">
-          <ion-label expand="block" @click="logout" color="danger" shape="round" size="default">Esci dall'account</ion-label>
+          <ion-label expand="block" @click="onLogout" color="danger" shape="round" size="default">Esci dall'account</ion-label>
           <ion-icon slot="end" :icon="exitOutlineIcon" class="red"></ion-icon>
         </ion-item>
         <ion-item color="light">
@@ -71,6 +71,7 @@ import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, Io
 import { ref } from 'vue';
 import { arrowForwardOutline, exitOutline, settingsOutline } from 'ionicons/icons';
 import router from "@/router";
+import { logout } from "@/logic/auth";
 
 const username = ref<string>('');
 const selectedLanguage = ref<string>('italian');
@@ -81,9 +82,10 @@ const arrowForwardOutlineIcon = arrowForwardOutline;
 const exitOutlineIcon = exitOutline;
 const settingsOutlineIcon = settingsOutline;
 
-function logout() {
+async function onLogout() {
   // TODO: Aggiungere la logica per effettuare il logout dall'applicazione
   console.log('Logout eseguito');
+  await logout();
   router.replace('/login');
 }
 

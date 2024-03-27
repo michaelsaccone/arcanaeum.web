@@ -4,10 +4,8 @@ import {database} from "@/firebase";
 import { auth } from "@/firebase";
 import {UserCredential} from "firebase/auth";
 import User from "@/models/User";
-import {inject} from "vue";
+import storage from "@/plugins/storage";
 import LoggedUser from "@/models/LoggedUser";
-
-const storage: Storage = <Storage>inject('store');
 
 function getLoggedUser(cred: UserCredential | any): LoggedUser {
     const loggedUser: LoggedUser = {

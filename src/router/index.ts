@@ -8,41 +8,62 @@ import FamilyPreferencesPage from '@/views/preferences/FamilyPreferencesPage.vue
 import ShopTab from "@/views/tabs/ShopTab.vue";
 import ComingSoonPage from "@/views/ComingSoonPage.vue";
 import ReadBooksPreferencesPage from '@/views/preferences/ReadBooksPreferencesPage.vue';
-import RecommendationTab from "@/views/tabs/RecommendationTab.vue";
+import storage from "@/plugins/storage";
+
+async function protectRoute(to, from, next) {
+  const isAuthenticated = await storage.get('isLogged');
+  if( !isAuthenticated ) next({ path: '/login' });
+  else next();
+}
+
+async function skipIfLogged(to, from, next) {
+  const isAuthenticated = await storage.get('isLogged');
+  if( isAuthenticated ) next({ path: '/' });
+  else next();
+}
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/tabs/home',
+    beforeEnter: protectRoute
+    // beforeEnter: protectRoute
     // TODO: add beforeEnter. If not Logged push to login
   },
   {
     path: '/login',
-    component: () => import('@/views/authentication/LoginPage.vue')
+    component: () => import('@/views/authentication/LoginPage.vue'),
+    beforeEnter: skipIfLogged
   },
   {
     path: "/intro",
-    component: IntroSlides
+    component: IntroSlides,
+    beforeEnter: skipIfLogged
   },
   {
     path: '/set-family',
-    component: SetFamilyPage
+    component: SetFamilyPage,
+    beforeEnter: skipIfLogged
   },
   {
     path: '/account-preferences',
-    component: AccountPreferencesPage
+    component: AccountPreferencesPage,
+    beforeEnter: protectRoute
   },
   {
     path: '/family-settings',
-    component: FamilyPreferencesPage
+    component: FamilyPreferencesPage,
+    beforeEnter: protectRoute
   },
   {
     path: '/read-books',
-    component: ReadBooksPreferencesPage
+    component: ReadBooksPreferencesPage,
+    beforeEnter: protectRoute
   },
   {
     path: '/tabs/',
     component: TabsPage,
+    beforeEnter: protectRoute,
     children: [
       {
         path: '',
