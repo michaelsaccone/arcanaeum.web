@@ -4,7 +4,8 @@ import {IonImg, IonItem, IonLabel, IonReorder, IonReorderGroup, IonThumbnail} fr
 import Book from "@/models/Book";
 
 defineProps({
-  books: Array<Book>
+  books: Array<Book>,
+  reorder: Boolean
 });
 
 const handleReorder = (event: CustomEvent) => {
@@ -15,7 +16,7 @@ const handleReorder = (event: CustomEvent) => {
 </script>
 
 <template>
-  <ion-reorder-group :disabled="false" @ionItemReorder="handleReorder($event)">
+  <ion-reorder-group :disabled="!reorder" @ionItemReorder="handleReorder($event)">
     <ion-item :key="b.isbn" v-for="b in books">
       <ion-thumbnail slot="start">
         <img :src="b.image" />

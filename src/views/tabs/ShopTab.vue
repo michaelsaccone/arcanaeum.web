@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
 
-      <book-list :books="books" />
+      <book-list :books="books" reorder/>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button id="open-modal-form" @click="printCiao">
@@ -16,7 +16,7 @@
       </ion-fab>
 
 
-      <ion-modal ref="modal" show-backdrop trigger="open-modal-form" @willDismiss="onWillDismiss">
+      <ion-modal ref="modal" show-backdrop trigger="open-modal-form" @close="onCloseModal" @willDismiss="onCloseModal">
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot="start">
@@ -31,23 +31,19 @@
         <ion-content class="ion-padding">
           <ion-item>
             <ion-input
+                id="search-input"
                 label="Titolo, Autore ..."
                 label-placement="stacked"
-                ref="input"
                 type="text"
                 placeholder="Scrivi ..."
                 v-model="addBookText"
                 @change="searchBooks"
             ></ion-input>
 
-            <ion-popover :is-open="openPopover">
-              <ion-content>
-                <card :items="books" />
-              </ion-content>
+            <ion-popover trigger="search-input" trigger-action="context-menu"  :is-open="openPopover" alignment="start" side="bottom" size="cover">
+              <book-list :books="books"></book-list>
             </ion-popover>
           </ion-item>
-        </ion-content>
-        <ion-content>
           <ion-grid style="text-align: center; margin-right: 30px">
             <ion-row>
               <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
@@ -56,7 +52,6 @@
                   <ion-ripple-effect></ion-ripple-effect>
                 </div>
               </ion-col>
-
             </ion-row>
           </ion-grid>
         </ion-content>
@@ -85,6 +80,7 @@ import {
   IonGrid,
   IonCol,
   IonRow,
+  IonPopover
 } from '@ionic/vue';
 import {add} from "ionicons/icons";
 import {Ref, ref} from 'vue';
@@ -99,7 +95,6 @@ const bookScraperObject = new bookScraper();
 const openPopover = ref(false);
 
 const modal = ref();
-const input = ref();
 const message = ref('This modal example uses triggers to automatically open a modal when the button is clicked.');
 
 const books: Ref<Array<Book>> = ref([])
@@ -110,17 +105,24 @@ function printCiao() {
   console.log(addBookText.value);
 }
 
+function onCloseModal() {
+  console.log("CHIUSO MODAL")
+  addBookText.value = "";
+  books.value = [];
+  openPopover.value = false;
+}
+
 async function searchBooks() {
-  console.log("VALORE INPUT \n" + input.value.$el.value);
+  console.log("VALORE INPUT \n" + addBookText.value);
   openPopover.value = true;
-  books.value = await bookScraperObject.cercaLibriFinale(input.value.$el.value);
+  books.value = await bookScraperObject.cercaLibriFinale(addBookText.value);
   console.log(books.value);
 }
 
 const cancel = () => modal.value.$el.dismiss(null, 'cancel');
 
 const confirm = () => {
-  const name = input.value.$el.value;
+  const name = addBookText.value;
   modal.value.$el.dismiss(name, 'confirm');
 };
 
