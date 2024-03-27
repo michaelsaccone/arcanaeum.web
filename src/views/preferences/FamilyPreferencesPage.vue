@@ -29,7 +29,7 @@
         </ion-item>
       </ion-list>
     </ion-content>
-
+    <!--
     <ion-footer>
       <ion-toolbar>
         <ion-item color="light">
@@ -38,6 +38,7 @@
         </ion-item>
       </ion-toolbar>
     </ion-footer>
+    -->
   </ion-page>
 </template>
 
