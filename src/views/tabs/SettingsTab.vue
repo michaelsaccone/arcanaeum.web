@@ -25,10 +25,7 @@
           </ion-select>
         </ion-item>
         <ion-item color="light">
-          <ion-select v-model="selectedTheme" interface="popover" label="Scegli il tema">
-            <ion-select-option value="dark">Scuro</ion-select-option>
-            <ion-select-option value="light">Chiaro</ion-select-option>
-          </ion-select>
+          <ion-toggle :checked="darkMode" @IonChange="toggleDarkMode">Modalità scura</ion-toggle>
         </ion-item>
         <ion-item color="light">
           <ion-toggle v-model="notificationsEnabled">Notifiche</ion-toggle>
@@ -54,7 +51,7 @@
           <ion-icon slot="end" :icon="arrowForwardOutlineIcon"></ion-icon>
         </ion-item>
         <ion-item color="light">
-          <ion-label expand="block" @click="onLogout" color="danger" shape="round" size="default">Esci dall'account</ion-label>
+          <ion-label expand="block" @click="logout" color="danger" shape="round" size="default">Esci dall'account</ion-label>
           <ion-icon slot="end" :icon="exitOutlineIcon" class="red"></ion-icon>
         </ion-item>
         <ion-item color="light">
@@ -71,27 +68,46 @@ import { IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, Io
 import { ref } from 'vue';
 import { arrowForwardOutline, exitOutline, settingsOutline } from 'ionicons/icons';
 import router from "@/router";
-import { logout } from "@/logic/auth";
+import { doc } from 'firebase/firestore';
+import {onMounted} from "vue";
+import storage from '@/plugins/storage';
 
 const username = ref<string>('');
 const selectedLanguage = ref<string>('italian');
-const selectedTheme = ref<string>('dark');
+const darkMode = ref<boolean>(false);
 const notificationsEnabled = ref<boolean>(true);
 const hideAdultBooks = ref<boolean>(false);
 const arrowForwardOutlineIcon = arrowForwardOutline;
 const exitOutlineIcon = exitOutline;
 const settingsOutlineIcon = settingsOutline;
 
-async function onLogout() {
+onMounted(async () => {
+  checkAppMode()
+})
+
+function logout() {
   // TODO: Aggiungere la logica per effettuare il logout dall'applicazione
   console.log('Logout eseguito');
-  await logout();
   router.replace('/login');
 }
 
 function resetSettings() {
   // TODO: Aggiungere la logica per ripristinare le impostazioni predefinite
   console.log('Impostazioni ripristinate');
+}
+
+async function checkAppMode() {
+  darkMode.value = await storage.get('darkModeActivated') === 'true';
+}
+
+async function toggleDarkMode() {
+  darkMode.value = !darkMode.value;
+  await storage.set('darkModeActivated', darkMode.value.toString());
+  if (darkMode.value) {
+    document.body.classList.add('dark');
+  } else {
+    document.body.classList.remove('dark');
+  }
 }
 </script>
 
