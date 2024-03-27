@@ -74,25 +74,31 @@ const books: Array<Book> = [
     image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
     isbn: "12313123",
     description: "YAP YAP YAP",
-    genre: "romanzo, cavalleresco"
+    longDescription: "",
+    genres: [ "romanzo", "cavalleresco" ],
+    language: "Italian"
   },
   {
-    title: "Orlando Yapper",
+    title: "Orlando Furioso",
     author: "Ludovico Arioso",
     publishYear: "1561",
     image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
     isbn: "12313123",
     description: "YAP YAP YAP",
-    genre: "romanzo, cavalleresco"
+    longDescription: "",
+    genres: [ "romanzo", "cavalleresco" ],
+    language: "Italian"
   },
   {
-    title: "Orlando Bortolox",
+    title: "Orlando Furioso",
     author: "Ludovico Arioso",
     publishYear: "1561",
     image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
     isbn: "12313123",
     description: "YAP YAP YAP",
-    genre: "romanzo, cavalleresco"
+    longDescription: "",
+    genres: [ "romanzo", "cavalleresco" ],
+    language: "Italian"
   }
 ]
 

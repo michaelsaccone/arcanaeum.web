@@ -51,7 +51,7 @@
           <ion-item>
             <ion-input
                 ref="input"
-                type="title"
+                type="text"
                 label="Title"
                 label-placement="floating"
                 placeholder="Scrivi ..."
@@ -62,7 +62,7 @@
           <ion-item>
             <ion-input
                 ref="input"
-                type="author"
+                type="text"
                 label="Autore"
                 label-placement="floating"
                 placeholder="Scrivi ..."
@@ -73,7 +73,7 @@
           <ion-item>
             <ion-input
                 ref="input"
-                type="year"
+                type="date"
                 label="Anno"
                 label-placement="floating"
                 placeholder="Scrivi ..."
@@ -85,7 +85,7 @@
           <ion-item>
             <ion-input
                 ref="input"
-                type="description"
+                type="text"
                 label="Descrizione personale del libro"
                 label-placement="floating"
                 placeholder="Scrivi ..."

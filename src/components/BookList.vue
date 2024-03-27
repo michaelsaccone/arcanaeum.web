@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {IonImg, IonItem, IonLabel, IonReorder, IonReorderGroup, IonThumbnail} from "@ionic/vue";
+import {IonItem, IonLabel, IonReorder, IonReorderGroup, IonThumbnail} from "@ionic/vue";
 import Book from "@/models/Book";
 
 defineProps({

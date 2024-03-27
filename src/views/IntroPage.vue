@@ -12,19 +12,19 @@
           @slideChange="onSlideChange"
       >
         <swiper-slide style="background-color: #1a65eb">
-          <slide image-url="/resources/imageSlide1.png" title="CATALOGA">
+          <slide image-url="/img/imageSlide1.png" title="CATALOGA">
             CIAO 1
           </slide>
         </swiper-slide>
 
         <swiper-slide style="background-color: #7045ff">
-          <slide image-url="/resources/imageSlide1.png" title="LEGGI">
+          <slide image-url="/img/imageSlide1.png" title="LEGGI">
             CIAO 2
           </slide>
         </swiper-slide>
 
         <swiper-slide style="background-color: #42d96b">
-          <slide image-url="/resources/imageSlide1.png" title="SCOPRI">
+          <slide image-url="/img/imageSlide1.png" title="SCOPRI">
             CIAO 3
           </slide>
         </swiper-slide>
