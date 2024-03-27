@@ -6,7 +6,6 @@ interface LoggedUser {
     accessToken: string;
     expirationTime: number;
     refreshToken: string;
-    books: Array<Book>
 }
 
 export default LoggedUser;
