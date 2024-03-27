@@ -1,8 +1,12 @@
 import Book from "@/models/Book";
+import { collection, addDoc, doc } from "firebase/firestore";
+import storage from "@/plugins/storage";
 
 
 // aggiunge un libro alla libreria di famiglia
 async function addFamilyBook(book: Book) {
+    const loggedUser = await storage.get('loggedUser');
+
     console.log(book);
 }
 
@@ -30,4 +34,6 @@ async function addBookToShopList(book: Book) {
 async function addBookToFavourites(book: Book) {
     console.log(book);
 }
+
+export { addFamilyBook, addBookToFavourites, addBookToShopList, getFamilyBooks, getShopList, getUserFavouriteBooks };
 
