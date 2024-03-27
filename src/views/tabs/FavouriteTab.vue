@@ -55,9 +55,7 @@ import BookList from "@/components/BookList.vue";
 import Book from "@/models/Book";
 import LoggedUser from "@/models/LoggedUser";
 import {onMounted, inject} from "vue";
-
-
-const storage = <Storage>inject('store');
+import storage from "@/plugins/storage";
 
 // Codice per ottenere oggetto dallo storage
 onMounted(async () => {
