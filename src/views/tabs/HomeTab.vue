@@ -2,12 +2,25 @@
   <ion-page>
     <ion-header>
       <ion-toolbar class="custom-toolbar">
-        <div style="align:left; margin-left:20px">
-          <ion-title class="custom-title" style="text-align: left">ARCANAEUM personale</ion-title>
-        </div>
+        <ion-item>
+          <ion-searchbar
+              id="search-input"
+              placeholder="Cerca libri da aggiungere..."
+              ref="input"
+              v-model="addBookText"
+              @ionChange="searchBooks"
+          ></ion-searchbar>
+        </ion-item>
       </ion-toolbar>
     </ion-header>
     <ion-content>
+
+      <book-list :books="loggedUser?.books" reorder/>
+
+      <ion-popover trigger="search-input" trigger-action="context-menu"  :is-open="openPopover" alignment="start" side="bottom" size="cover" @willDismiss="dismiss()">
+        <book-list :books="books" clickable></book-list>
+      </ion-popover>
+
       <ion-list>
         <ion-card v-for="(item, index) in items" :key="index">
           <ion-card-header>
@@ -28,14 +41,22 @@
           <ion-button fill="clear" @click="toggleDescription(index)">{{ item.showMore ? 'Nascondi libro' : 'Mostra libro' }}</ion-button>
         </ion-card>
       </ion-list>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-        <ion-button id="open-action-sheet">
-          <ion-icon :icon="add"></ion-icon>
-        </ion-button>
-      </ion-fab>
-        <ion-action-sheet trigger="open-action-sheet" header="Actions" :buttons="actionSheetButtons"></ion-action-sheet>
 
-      <ion-modal ref="modal" show-backdrop trigger="open-modal-form-1" @willDismiss="onWillDismiss">
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button>
+          <ion-icon :icon="chevronUpCircle"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+          <ion-fab-button id="open-modal-manual">
+            <ion-icon :icon="bookOutline"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button id="open-barcode">
+            <ion-icon :icon="barcode"></ion-icon>
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
+
+      <ion-modal ref="modal" show-backdrop trigger="open-modal-manual" @willDismiss="onWillDismiss">
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot="start">
@@ -106,7 +127,8 @@
 
 <script setup lang="ts">
 import {
-  IonActionSheet,
+  IonSearchbar,
+  IonPopover,
   IonPage,
   IonContent,
   IonList,
@@ -122,9 +144,13 @@ import {
   IonImg,
   IonInput, IonItem, IonButtons, IonModal, IonFab, IonIcon
 } from '@ionic/vue';
-import {reactive, ref} from 'vue';
+import {reactive, Ref, ref} from 'vue';
 import {OverlayEventDetail} from "@ionic/core/components";
-import {add} from "ionicons/icons";
+import {barcode, chevronUpCircle, bookOutline} from "ionicons/icons";
+import Book from "@/models/Book";
+import BookList from "@/components/BookList.vue";
+import LoggedUser from "@/models/LoggedUser";
+import bookScraper from "@/logic/bookScraper";
 
 interface Item {
   title: string;
@@ -133,9 +159,8 @@ interface Item {
   shortDescription: string;
   longDescription: string;
   showMore: boolean;
-  coverImage: string; // Add cover image property to Item interface
+  coverImage: string;
 }
-
     const items = reactive<Item[]>([
       {
         title: "Siddhartha",
@@ -183,67 +208,56 @@ interface Item {
       },
 
     ]);
-    const actionSheetButtons = [
-      {
-        text: 'Aggiungi manualmente',
-        id: 'open-modal-form-1',
-        data: {
-          action: 'addManually',
-        },
-      },
-      {
-        text: 'Cerca nel catalogo',
-        id: 'open-modal-catalgue',
-        data: {
-          action: 'searchToAdd',
-        },
-      },
-      {
-        text: 'Cancel',
-        role: 'cancel',
-        data: {
-          action: 'cancel',
-        },
-      },
-    ];
 
 
+    window.onload = () => {
+      console.log(loggedUser.value?.books);
+    };
+    const loggedUser: Ref<LoggedUser | null> = ref(null);
+    const openPopover = ref(false);
+    const modal = ref();
+    const input = ref();
+    const message = ref('This modal example uses triggers to automatically open a modal when the button is clicked.');
 
+    const books: Ref<Array<Book>> = ref([])
+    const addBookTitle = ref("");
+    const addBookAuthor = ref("");
+    const addBookYear = ref("");
+    const addBookDescription = ref("");
+    const addBookText = ref("");
+    const bookScraperObject = new bookScraper();
+
+    const dismiss = () => {
+      modal.value.$el.dismiss();
+    };
     const toggleDescription = (index: number) => {
       items[index].showMore = !items[index].showMore;
     };
 
-const modal = ref();
-const input = ref();
-const message = ref('This modal example uses triggers to automatically open a modal when the button is clicked.');
+    async function searchBooks() {
+      console.log("VALORE INPUT \n" + addBookText.value);
+      openPopover.value = true;
+      books.value = await bookScraperObject.cercaLibriFinale(addBookText.value);
+      console.log(books.value);
+    }
+    const cancel = () => modal.value.$el.dismiss(null, 'cancel');
 
-const addBookTitle = ref("");
-const addBookAuthor = ref("");
-const addBookYear = ref("");
-const addBookDescription = ref("");
+    const confirm = () => {
+      const name = input.value.$el.value;
+      modal.value.$el.dismiss(name, 'confirm');
+    };
 
-function printCiao() {
-  console.log(addBookTitle.value);
-}
-
-const cancel = () => modal.value.$el.dismiss(null, 'cancel');
-
-const confirm = () => {
-  const name = input.value.$el.value;
-  modal.value.$el.dismiss(name, 'confirm');
-};
-
-const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
-  if (ev.detail.role === 'confirm') {
-    message.value = `Hello, ${ev.detail.data}!`;
-  }
-};
-const areFieldsFilled = () => {
-  return addBookTitle.value.trim() !== "" &&
-      addBookAuthor.value.trim() !== "" &&
-      addBookYear.value.trim() !== "" &&
-      addBookDescription.value.trim() !== "";
-};
+    const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
+      if (ev.detail.role === 'confirm') {
+        message.value = `Hello, ${ev.detail.data}!`;
+      }
+    };
+    const areFieldsFilled = () => {
+      return addBookTitle.value.trim() !== "" &&
+          addBookAuthor.value.trim() !== "" &&
+          addBookYear.value.trim() !== "" &&
+          addBookDescription.value.trim() !== "";
+    };
 </script>
 
 <style>
