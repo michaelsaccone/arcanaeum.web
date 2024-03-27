@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
 
-      <book-list :books="books" reorder/>
+      <book-list :books="loggedUser?.books" reorder/>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button id="open-modal-form" @click="printCiao">
@@ -15,14 +15,12 @@
         </ion-fab-button>
       </ion-fab>
 
-
       <ion-modal ref="modal" show-backdrop trigger="open-modal-form" @close="onCloseModal" @willDismiss="onCloseModal">
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot="start">
               <ion-button @click="cancel()">Cancella</ion-button>
             </ion-buttons>
-            <ion-title>Benvenuto</ion-title>
             <ion-buttons slot="end">
               <ion-button :strong="true" @click="confirm()">Conferma</ion-button>
             </ion-buttons>
@@ -34,16 +32,17 @@
                 id="search-input"
                 label="Titolo, Autore ..."
                 label-placement="stacked"
+                ref="input"
                 type="text"
                 placeholder="Scrivi ..."
                 v-model="addBookText"
                 @change="searchBooks"
             ></ion-input>
-
-            <ion-popover trigger="search-input" trigger-action="context-menu"  :is-open="openPopover" alignment="start" side="bottom" size="cover">
-              <book-list :books="books"></book-list>
-            </ion-popover>
           </ion-item>
+
+            <ion-popover trigger="search-input" trigger-action="context-menu"  :is-open="openPopover" alignment="start" side="bottom" size="cover" @willDismiss="dismiss()">
+              <book-list :books="books" clickable></book-list>
+            </ion-popover>
           <ion-grid style="text-align: center; margin-right: 30px">
             <ion-row>
               <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
@@ -52,6 +51,7 @@
                   <ion-ripple-effect></ion-ripple-effect>
                 </div>
               </ion-col>
+
             </ion-row>
           </ion-grid>
         </ion-content>
@@ -83,23 +83,42 @@ import {
   IonPopover
 } from '@ionic/vue';
 import {add} from "ionicons/icons";
-import {Ref, ref} from 'vue';
+import {inject, onMounted, Ref, ref} from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
 import BookList from "@/components/BookList.vue";
 import Book from "@/models/Book";
 import bookScraper from "@/logic/bookScraper";
-import card from "@/components/CardComponent.vue";
+import firebase from "firebase/compat";
+import LoggedUser from "@/models/LoggedUser";
+
+const storage = <Storage>inject('store');
+
+// Codice per ottenere oggetto dallo storage
+onMounted(async () => {
+  loggedUser.value = await storage.get('user')
+})
+const loggedUser: Ref<LoggedUser | null> = ref(null);
+
+window.onload = () => {
+  console.log(loggedUser.value?.books);
+};
 
 const bookScraperObject = new bookScraper();
 
 const openPopover = ref(false);
 
 const modal = ref();
+const input = ref();
 const message = ref('This modal example uses triggers to automatically open a modal when the button is clicked.');
 
 const books: Ref<Array<Book>> = ref([])
 
+
 const addBookText = ref("");
+
+const dismiss = () => {
+  modal.value.$el.dismiss();
+};
 
 function printCiao() {
   console.log(addBookText.value);

@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
 
-      <book-list :books="books" />
+      <book-list :books="books" reorder/>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button id="open-modal" @click="printCiao">

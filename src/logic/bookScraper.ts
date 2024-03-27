@@ -23,37 +23,44 @@ class bookScraper {
     }
 
 
-    public async cercaLibri(cerca:string, ricercaDa:string) :Promise<Book[]> {
+    public async cercaLibri(cerca: string, ricercaDa: string): Promise<Book[]> {
         const url = `https://www.googleapis.com/books/v1/volumes?q=${ricercaDa}:${cerca}&maxResults=5`;
 
         try {
             const risposta = await fetch(url);
             const data = await risposta.json();
 
-            if (!data || data.totalItems === 0) {
+            if (!data || data.totalItems === 0 || !data.items) {
+                // Nessun risultato trovato
                 return [];
             }
-            console.log(data);
-            const libri: Array<Book> = data.items.map((libro:any) => {
-                const volumeInfo = libro.volumeInfo;
+
+            const libri: Array<Book> = data.items.map((libro: any) => {
+                const volumeInfo = libro.volumeInfo || {};
+                const industryIdentifiers = volumeInfo.industryIdentifiers || [];
+                const isbn = industryIdentifiers.find((identifier: any) => identifier.type === 'ISBN_13')?.identifier || 'ISBN non disponibile';
+
                 return {
                     title: volumeInfo.title || 'Titolo non disponibile',
                     author: volumeInfo.authors || ['Autore/i non disponibile'],
-                    isbn: volumeInfo.industryIdentifiers ? volumeInfo.industryIdentifiers.find((identifier:any) => identifier.type === 'ISBN_13').identifier : 'ISBN non disponibile',
+                    isbn: isbn,
                     publishYear: volumeInfo.publishedDate || 'Data di pubblicazione non disponibile',
                     description: volumeInfo.description || 'Descrizione non disponibile',
                     language: volumeInfo.language || 'Lingua non disponibile',
-                    genre: volumeInfo.categories || ['Genere non disponibile'], // Ottenere il genere del libro
+                    genre: volumeInfo.categories || ['Genere non disponibile'],
                     image: volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : 'Nessuna immagine disponibile',
                     previewLink: volumeInfo.previewLink || 'Anteprima non disponibile',
                     infoLink: volumeInfo.infoLink || 'Informazioni non disponibili',
                 };
             });
+
             return libri;
         } catch (errore) {
-            throw new Error('Errore durante la ricerca dei libri.');
+            console.error('Errore durante la ricerca dei libri:', errore);
+            return [];
         }
     }
+
 
     // function visualizzaRisultati(libri, titolo) {
     //     let html = `<h2>${titolo}</h2>`;
