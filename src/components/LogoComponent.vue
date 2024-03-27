@@ -3,7 +3,7 @@ import { IonImg } from "@ionic/vue";
 </script>
 
 <template>
-<ion-img src="/resources/logoArcaneum.png">
+<ion-img src="/img/logoArcaneum.png">
 
 </ion-img>
 </template>

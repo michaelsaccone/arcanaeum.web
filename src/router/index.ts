@@ -90,6 +90,10 @@ const routes: Array<RouteRecordRaw> = [
         component: ComingSoonPage
       }
     ]
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: '/tabs/home',
   }
 ]
 

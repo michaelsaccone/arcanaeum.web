@@ -20,7 +20,7 @@
 
         <ion-tab-button tab="tab1" href="/tabs/home">
           <ion-icon aria-hidden="true" :icon="home" />
-          <ion-label>HOME</ion-label>
+          <ion-label>Casa</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="tab4" href="/tabs/shop">
