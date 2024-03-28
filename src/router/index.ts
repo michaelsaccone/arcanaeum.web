@@ -10,13 +10,13 @@ import ComingSoonPage from "@/views/ComingSoonPage.vue";
 import ReadBooksPreferencesPage from '@/views/preferences/ReadBooksPreferencesPage.vue';
 import storage from "@/plugins/storage";
 
-async function protectRoute(to, from, next) {
+async function protectRoute(to: any, from: any, next: any) {
   const isAuthenticated = await storage.get('isLogged');
   if( !isAuthenticated ) next({ path: '/login' });
   else next();
 }
 
-async function skipIfLogged(to, from, next) {
+async function skipIfLogged(to: any, from: any, next: any) {
   const isAuthenticated = await storage.get('isLogged');
   if( isAuthenticated ) next({ path: '/' });
   else next();
