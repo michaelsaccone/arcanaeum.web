@@ -9,21 +9,28 @@ import LoggedUser from "@/models/LoggedUser";
 
 function getLoggedUser(cred: UserCredential | any): LoggedUser {
     const loggedUser: LoggedUser = {
-        name: cred.user.displayName!,
+        name: cred.user.displayName,
         email: cred.user.email!,
         accessToken: cred.user.stsTokenManager!.accessToken,
         expirationTime: cred.user.stsTokenManager!.expirationTime,
         refreshToken: cred.user.refreshToken
     };
+    console.log(cred);
     return loggedUser;
 }
 async function classicLogin(email: string, password: string) {
-    const credentials = await signInWithEmailAndPassword(auth, email, password);
-    await storage.set('user', getLoggedUser(credentials))
-    await storage.set('isLogged', true);
-    const userReference = doc(database, "users", email);
-    await storage.set('userReference', userReference);
-    return credentials;
+    try {
+        const credentials = await signInWithEmailAndPassword(auth, email, password);
+        await storage.set('user', getLoggedUser(credentials))
+        await storage.set('isLogged', true);
+        const userReference = doc(database, "users", email);
+        // await storage.set('userReference', userReference);
+        return credentials;
+    } catch (err) {
+        console.log("errore durante il login");
+        console.log(err);
+        throw "ERR";
+    }
 }
 
 async function register(name: string, surname: string, email: string, password: string): Promise<UserCredential> {
@@ -49,7 +56,7 @@ async function register(name: string, surname: string, email: string, password: 
         // await addDoc(collection(database, "users"), user);
         await storage.set('user', getLoggedUser(credentials))
         await storage.set('isLogged', true);
-        await storage.set('userReference', userReference);
+        // await storage.set('userReference', userReference);
         console.log(await storage.get('user'));
         return credentials;
     } catch (error) {

@@ -6,13 +6,19 @@ import User from "@/models/User";
 import LoggedUser from "@/models/LoggedUser";
 
 
+async function getUserReference() {
+    const user: LoggedUser = await storage.get('user');
+    return doc(database, "users", user.email);
+}
+
+
 // aggiunge un libro alla libreria di famiglia
 async function addFamilyBook(book: Book) {
 
     const bookRef = doc(database, "books", book.isbn);
     await setDoc(bookRef, book)
 
-    const userRef = await storage.get('userReference');
+    const userRef = await getUserReference();
     try {
         await updateDoc(userRef, {
             books: arrayUnion(bookRef)
@@ -28,7 +34,7 @@ async function addBookToShopList(book: Book) {
     const bookRef = doc(database, "books", book.isbn);
     await setDoc(bookRef, book)
 
-    const userRef = await storage.get('userReference');
+    const userRef =  await getUserReference();
     await updateDoc(userRef, {
         bookShopList: arrayUnion(bookRef)
     })
@@ -40,7 +46,7 @@ async function addBookToFavourites(book: Book) {
     const bookRef = doc(database, "books", book.isbn);
     await setDoc(bookRef, book)
 
-    const userRef = await storage.get('userReference');
+    const userRef = await getUserReference();
     await updateDoc(userRef, {
         favouriteBooks: arrayUnion(bookRef)
     })
