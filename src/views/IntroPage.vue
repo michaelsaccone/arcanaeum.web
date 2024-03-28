@@ -12,19 +12,19 @@
           @slideChange="onSlideChange"
       >
         <swiper-slide style="background-color: #35374B">
-          <slide image-url="/resources/Books.png" title="CATALOGA">
+          <slide image-url="/img/Books.png" title="CATALOGA">
             Organizza i tuoi libri preferiti in modo semplice e veloce con Arcanaeum
           </slide>
         </swiper-slide>
 
         <swiper-slide style="background-color: #344955">
-          <slide image-url="/resources/Family.png" title="FAMIGLIA">
+          <slide image-url="/img/Family.png" title="FAMIGLIA">
             Leggi i riassunti dei libri scelti da te e dai tuoi amici, crea una famigla e condividi i tuoi libri preferiti
           </slide>
         </swiper-slide>
 
         <swiper-slide style="background-color: #50727B">
-          <slide image-url="/resources/Discover.png" title="SCOPRI">
+          <slide image-url="/img/Discover.png" title="SCOPRI">
             Scopri migliaia di libri e autori grazie alla nostra sezione dei consigli
           </slide>
         </swiper-slide>

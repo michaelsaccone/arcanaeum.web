@@ -4,9 +4,9 @@
       <ion-toolbar class="custom-toolbar">
         <ion-item>
           <ion-searchbar
+              autocapitalize="false"
               id="search-input"
               placeholder="Cerca libri da aggiungere..."
-              ref="input"
               v-model="addBookText"
               @ionChange="searchBooks"
           ></ion-searchbar>
@@ -15,7 +15,7 @@
     </ion-header>
     <ion-content>
 
-      <book-list :books="loggedUser?.books" reorder/>
+<!--      <book-list :books="loggedUser?.books" reorder/>-->
 
       <ion-popover trigger="search-input" trigger-action="context-menu"  :is-open="openPopover" alignment="start" side="bottom" size="cover" @willDismiss="dismiss()">
         <book-list :books="books" clickable></book-list>
@@ -126,8 +126,8 @@
 </template>
 
 <script setup lang="ts">
+import {IonSearchbar} from "@ionic/vue";
 import {
-  IonSearchbar,
   IonPopover,
   IonPage,
   IonContent,
@@ -142,7 +142,7 @@ import {
   IonTitle,
   IonToolbar,
   IonImg,
-  IonInput, IonItem, IonButtons, IonModal, IonFab, IonFabList, IonFabButton, IonIcon
+  IonInput, IonItem, IonButtons, IonModal, IonFab, IonFabList, IonFabButton, IonIcon,
 } from '@ionic/vue';
 import {reactive, Ref, ref} from 'vue';
 import {OverlayEventDetail} from "@ionic/core/components";

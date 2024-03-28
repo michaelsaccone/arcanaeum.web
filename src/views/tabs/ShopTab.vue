@@ -83,10 +83,6 @@ onMounted(async () => {
 })
 const loggedUser: Ref<LoggedUser | null> = ref(null);
 
-window.onload = () => {
-  console.log(loggedUser.value?.books);
-};
-
 const bookScraperObject = new bookScraper();
 
 const title = ref('Esplora');
