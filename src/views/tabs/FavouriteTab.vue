@@ -56,49 +56,18 @@ import Book from "@/models/Book";
 import LoggedUser from "@/models/LoggedUser";
 import {onMounted} from "vue";
 import storage from "@/plugins/storage";
+import {getUserFavouriteBooks} from "@/logic/api.books";
 
 // Codice per ottenere oggetto dallo storage
 onMounted(async () => {
   loggedUser.value = await storage.get('user')
+  console.log(loggedUser.value);
 })
 const loggedUser: Ref<LoggedUser | null> = ref(null);
 
-
-const books: Array<Book> = [
-  {
-    title: "Orlando Furioso",
-    author: "Ludovico Arioso",
-    publishYear: "1561",
-    image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
-    isbn: "12313123",
-    description: "YAP YAP YAP",
-    longDescription: "",
-    genres: [ "romanzo", "cavalleresco" ],
-    language: "Italian"
-  },
-  {
-    title: "Orlando Furioso",
-    author: "Ludovico Arioso",
-    publishYear: "1561",
-    image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
-    isbn: "12313123",
-    description: "YAP YAP YAP",
-    longDescription: "",
-    genres: [ "romanzo", "cavalleresco" ],
-    language: "Italian"
-  },
-  {
-    title: "Orlando Furioso",
-    author: "Ludovico Arioso",
-    publishYear: "1561",
-    image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
-    isbn: "12313123",
-    description: "YAP YAP YAP",
-    longDescription: "",
-    genres: [ "romanzo", "cavalleresco" ],
-    language: "Italian"
-  }
-]
+const books: () => Promise<Array<Book>> = async () => {
+  return await getUserFavouriteBooks();
+}
 
 const modal = ref();
 const input = ref();

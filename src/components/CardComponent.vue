@@ -31,11 +31,11 @@ const handleClick = (book: Book) => {
 
 <template>
   <ion-card v-for="(item, index) in items" :key="index" @click="handleClick(item)">
-    <ion-card-header>
+    <ion-card-header class="ion-text-center">
       <ion-card-subtitle>{{ item.author }}</ion-card-subtitle>
       <ion-card-title>{{ item.title }}</ion-card-title>
       <ion-card-subtitle>{{ item.publishYear }}</ion-card-subtitle>
-      <ion-img :src="item.image" style="max-width: 80%;"></ion-img>
+      <ion-img :src="item.image" style="max-width: 65%;" />
     </ion-card-header>
   </ion-card>
 </template>

@@ -9,7 +9,7 @@ import LoggedUser from "@/models/LoggedUser";
 
 function getLoggedUser(cred: UserCredential | any): LoggedUser {
     const loggedUser: LoggedUser = {
-        name: cred.user.displayName,
+        name: cred.user.displayName!,
         email: cred.user.email!,
         accessToken: cred.user.stsTokenManager!.accessToken,
         expirationTime: cred.user.stsTokenManager!.expirationTime,

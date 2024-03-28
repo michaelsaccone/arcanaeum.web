@@ -1,8 +1,6 @@
-
 import Book from "@/models/Book";
 
 class bookScraper {
-
 
     public async cercaLibriFinale(cerca:string) :Promise<Book[]> {
         const ricercaISBN = await this.cercaLibri(cerca, 'isbn');
@@ -11,20 +9,24 @@ class bookScraper {
             const ricercaAutore = await this.cercaLibri(cerca, 'inauthor');
             let ricercaFinale:Book[] = [];
             if (ricercaAutore.length <= 2) {
-                ricercaFinale = ricercaTitolo.slice(0, 5 - ricercaAutore.length).concat(ricercaAutore);
+                ricercaFinale = ricercaTitolo.slice(0, 20 - ricercaAutore.length).concat(ricercaAutore);
             }else{
-                ricercaFinale = ricercaFinale = ricercaTitolo.slice(0, 3).concat(ricercaAutore.slice(0, 2));
+                ricercaFinale = ricercaTitolo.slice(0, 12).concat(ricercaAutore.slice(0, 8));
                 console.log("Titolo: " + JSON.stringify(ricercaTitolo) + "\n\n\nAutore: " + JSON.stringify(ricercaAutore) + "\n\n\nFinale: " + JSON.stringify(ricercaFinale));
             }
+
+            // Seleziona casualmente un sottoinsieme dei libri ottenuti
+            ricercaFinale = this.shuffleArray(ricercaFinale);
+
             return ricercaFinale;
         }else{
             return ricercaISBN;
         }
     }
 
-
+    // Funzione per effettuare la chiamata alle API di Google Books e selezionare casualmente un sottoinsieme dei libri ottenuti
     public async cercaLibri(cerca: string, ricercaDa: string): Promise<Book[]> {
-        const url = `https://www.googleapis.com/books/v1/volumes?q=${ricercaDa}:${cerca}&maxResults=5`;
+        const url = `https://www.googleapis.com/books/v1/volumes?q=${ricercaDa}:${cerca}&maxResults=40`;
 
         try {
             const risposta = await fetch(url);
@@ -54,45 +56,22 @@ class bookScraper {
                 };
             });
 
-            return libri;
+            // Seleziona casualmente un sottoinsieme dei libri ottenuti
+            return this.shuffleArray(libri).slice(0, 20);
         } catch (errore) {
             console.error('Errore durante la ricerca dei libri:', errore);
             return [];
         }
     }
 
-
-    // function visualizzaRisultati(libri, titolo) {
-    //     let html = `<h2>${titolo}</h2>`;
-    //     if (libri.length === 0) {
-    //         html += '<p>Nessun risultato trovato.</p>';
-    //     } else {
-    //         html += '<ul>';
-    //         libri.forEach(libro => {
-    //             html += `
-    //                     <li>
-    //                         <strong>Titolo:</strong> ${libro.titolo}<br>
-    //                         <strong>Autore/i:</strong> ${libro.autori.join(', ')}<br>
-    //                         <strong>Sottotitolo:</strong> ${libro.sottotitolo}<br>
-    //                         <strong>Editore:</strong> ${libro.editore}<br>
-    //                         <strong>Data di pubblicazione:</strong> ${libro.dataPubblicazione}<br>
-    //                         <strong>Descrizione:</strong> ${libro.descrizione}<br>
-    //                         <strong>Numero di pagine:</strong> ${libro.pagine}<br>
-    //                         <strong>Lingua:</strong> ${libro.lingua}<br>
-    //                         <strong>Generi:</strong> ${libro.genere}<br>
-    //                         <strong>Immagine Miniatura:</strong> <img src="${libro.immagineMiniatura}"><br>
-    //                         <strong>Immagini:</strong> ${JSON.stringify(libro.immagini)}<br>
-    //                         <strong>Link Anteprima:</strong> <a href="${libro.linkAnteprima}" target="_blank">Anteprima</a><br>
-    //                         <strong>Link Info:</strong> <a href="${libro.linkInfo}" target="_blank">Info</a><br>
-    //                         <strong>Link Vendita:</strong> <a href="${libro.linkVendita}" target="_blank">Acquista</a><br>
-    //                     </li>
-    //                 `;
-    //         });
-    //         html += '</ul>';
-    //     }
-    //     risultatiRicercaDiv.innerHTML += html;
-    // }
+    // Funzione per mescolare casualmente un array
+    private shuffleArray(array: any[]): any[] {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
 }
-
 
 export default bookScraper;

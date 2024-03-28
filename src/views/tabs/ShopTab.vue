@@ -2,8 +2,11 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{ title }}</ion-title>
+        <ion-title class="ion-text-center">{{ title }}</ion-title>
         <ion-button slot="end" @click="showGenres">Mostra Generi</ion-button>
+        <ion-button  @click="displayBookPreview = false; showGenre = false;" slot="start" v-if="displayBookPreview" color="danger">
+          <ion-icon :icon="closeCircle"></ion-icon>
+        </ion-button>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" v-if="!displayBookPreview">
@@ -25,6 +28,7 @@
           <book-list v-if="!showGenre" :books="booksPreview" reorder/>
 
           <ion-grid style="text-align: center; margin-right: 30px" v-else>
+
             <ion-row>
               <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
                 <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }" @click="openGenre(genre)">
@@ -35,6 +39,12 @@
 
             </ion-row>
           </ion-grid>
+          <ion-alert
+              trigger="present-alert"
+              header="Nessun Libro Trovato"
+              :is-open="openAlert"
+              @did-dismiss="openAlert = false"
+          ></ion-alert>
         </ion-content>
 
     </ion-content>
@@ -65,7 +75,7 @@ import {
   IonRow,
   IonPopover
 } from '@ionic/vue';
-import {add} from "ionicons/icons";
+import {add, closeCircle} from "ionicons/icons";
 import {inject, onMounted, reactive, Ref, ref} from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
 import BookList from "@/components/BookList.vue";
@@ -97,21 +107,20 @@ const displayBookPreview = ref(false);
 const books: Ref<Array<Book>> = ref([])
 const booksPreview: Ref<Array<Book>> = ref([])
 const booksPreviewTemp: Ref<Array<Book>> = ref([])
+
 const setDisplayBookPreview = (value: boolean) => {
   displayBookPreview.value = value;
 }
 
 const pushBookToPreview = (book: Book) => {
   booksPreview.value.push(book);
+  displayBookPreview.value = false;
+  showGenre.value = false;
 }
 
 const state = reactive({
   displayBookPreview: false,
 });
-
-
-
-
 
 
 const addBookText = ref("");
@@ -157,10 +166,12 @@ const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
   }
 };
 
-const BookGenres = ['Fiction', 'Non-Fiction', 'Mystery', 'Fantasy', 'Science Fiction', 'Romance', 'Horror', 'Thriller', 'Historical', 'Biography', 'Autobiography',
+const BookGenresArray = ['Fiction', 'Non-Fiction', 'Mystery', 'Fantasy', 'Science Fiction', 'Romance', 'Horror', 'Thriller', 'Historical', 'Biography', 'Autobiography',
   'Self-Help', 'Cookbook', 'Travel', 'Poetry', 'Graphic Novel', 'Comic', 'Manga', 'Art', 'Photography', 'Music', 'Film', 'Theatre', 'Dance',
   'Craft', 'Hobby', 'Sport', 'Fitness', 'Health', 'Wellness', 'Mindfulness', 'Spirituality', 'Religion', 'Philosophy', 'History', 'Politics', 'Economics', 'Sociology', 'Psychology',
-  'Science', 'Mathematics', 'Technology', 'Engineering', 'Medicine', 'Law', 'Education', 'Language', 'Literature', 'Business', 'Finance', 'Marketing'];
+  'Science', 'Mathematics', 'Technology', 'Engineering', 'Medicine', 'Law', 'Education', 'Language', 'Literature', 'Business', 'Finance', 'Marketing', 'negro'];
+
+const BookGenres = BookGenresArray.slice().sort();
 
 const getRandomColor = () => {
   const minBrightness = 120; // minimo valore di luminosità
@@ -180,6 +191,7 @@ const getRandomColor = () => {
 };
 
 const clickedGenre = ref('');
+const openAlert = ref(false)
 
 
 const openGenre = async (genre: string) => {
@@ -188,22 +200,33 @@ const openGenre = async (genre: string) => {
   console.log("GENERE LIBRO CLICKED: ", clickedGenre.value);
   console.log("FOUND BOOKS: ", foundBooks);
 
-  // Aggiungi i libri trovati a booksPreview
-  // foundBooks.forEach((book: Book) => {
-  //   if (book.genres.includes(genre)) {
-  //     booksPreviewTemp.value.push(book);
-  //   }
-  // });
-  if (foundBooks.length === 0) {
+  // Filtra i libri trovati per il genere cliccato
+  const filteredBooks = foundBooks.filter(book => book.genres.includes(clickedGenre.value));
+
+  // Ordina l'array filtrato in ordine alfabetico per titolo
+  filteredBooks.sort((a, b) => a.title.localeCompare(b.title));
+
+  if (filteredBooks.length === 0) {
     console.log("NESSUN LIBRO TROVATO");
     displayBookPreview.value = false;
+    openAlert.value = true;
     return;
   }
-  booksPreviewTemp.value = foundBooks;
+
+  // Aggiungi libri dall'array non filtrato se il numero di libri filtrati è inferiore a 10
+  const additionalBooks = foundBooks.filter(book => !filteredBooks.includes(book));
+  const numAdditionalBooks = 10 - filteredBooks.length;
+  const moreBooks = additionalBooks.slice(0, numAdditionalBooks);
+
+  const finalBooks = filteredBooks.concat(moreBooks);
+
+  booksPreviewTemp.value = finalBooks;
 
   // Imposta displayBookPreview a true per visualizzare CardComponent
   displayBookPreview.value = true;
 };
+
+
 
 
 
