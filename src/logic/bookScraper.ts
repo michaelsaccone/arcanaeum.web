@@ -2,16 +2,17 @@ import Book from "@/models/Book";
 
 class bookScraper {
 
-    public async cercaLibriFinale(cerca:string) :Promise<Book[]> {
-        const ricercaISBN = await this.cercaLibri(cerca, 'isbn');
-        if(ricercaISBN.length < 1){
-            const ricercaTitolo = await this.cercaLibri(cerca, 'intitle');
-            const ricercaAutore = await this.cercaLibri(cerca, 'inauthor');
-            let ricercaFinale:Book[] = [];
+    public async cercaLibriFinale(cerca: string, genere?: string): Promise<Book[]> {
+        const ricercaISBN = await this.cercaLibri(cerca, 'isbn', genere);
+        if (ricercaISBN.length < 1) {
+            const ricercaTitolo = await this.cercaLibri(cerca, 'intitle', genere);
+            const ricercaAutore = await this.cercaLibri(cerca, 'inauthor', genere);
+            const ricercaGenere = await this.cercaLibri(cerca, 'subject', genere);
+            let ricercaFinale: Book[] = [];
             if (ricercaAutore.length <= 2) {
-                ricercaFinale = ricercaTitolo.slice(0, 20 - ricercaAutore.length).concat(ricercaAutore);
-            }else{
-                ricercaFinale = ricercaTitolo.slice(0, 12).concat(ricercaAutore.slice(0, 8));
+                ricercaFinale = ricercaTitolo.slice(0, 20 - ricercaAutore.length).concat(ricercaAutore).concat(ricercaGenere.slice(0, 20 - ricercaTitolo.length - ricercaAutore.length));
+            } else {
+                ricercaFinale = ricercaTitolo.slice(0, 12).concat(ricercaAutore.slice(0, 8).concat(ricercaGenere.slice(0, 20 - ricercaTitolo.length - ricercaAutore.length)));
                 console.log("Titolo: " + JSON.stringify(ricercaTitolo) + "\n\n\nAutore: " + JSON.stringify(ricercaAutore) + "\n\n\nFinale: " + JSON.stringify(ricercaFinale));
             }
 
@@ -19,14 +20,17 @@ class bookScraper {
             ricercaFinale = this.shuffleArray(ricercaFinale);
 
             return ricercaFinale;
-        }else{
+        } else {
             return ricercaISBN;
         }
     }
 
     // Funzione per effettuare la chiamata alle API di Google Books e selezionare casualmente un sottoinsieme dei libri ottenuti
-    public async cercaLibri(cerca: string, ricercaDa: string): Promise<Book[]> {
-        const url = `https://www.googleapis.com/books/v1/volumes?q=${ricercaDa}:${cerca}&maxResults=40`;
+    public async cercaLibri(cerca: string, ricercaDa: string, genere?: string): Promise<Book[]> {
+        let url = `https://www.googleapis.com/books/v1/volumes?q=${ricercaDa}:${cerca}&maxResults=40`;
+        if (genere) {
+            url += `+subject:${genere}`;
+        }
 
         try {
             const risposta = await fetch(url);

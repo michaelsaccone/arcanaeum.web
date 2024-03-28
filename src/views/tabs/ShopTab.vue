@@ -166,10 +166,43 @@ const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
   }
 };
 
-const BookGenresArray = ['Fiction', 'Non-Fiction', 'Mystery', 'Fantasy', 'Science Fiction', 'Romance', 'Horror', 'Thriller', 'Historical', 'Biography', 'Autobiography',
-  'Self-Help', 'Cookbook', 'Travel', 'Poetry', 'Graphic Novel', 'Comic', 'Manga', 'Art', 'Photography', 'Music', 'Film', 'Theatre', 'Dance',
-  'Craft', 'Hobby', 'Sport', 'Fitness', 'Health', 'Wellness', 'Mindfulness', 'Spirituality', 'Religion', 'Philosophy', 'History', 'Politics', 'Economics', 'Sociology', 'Psychology',
-  'Science', 'Mathematics', 'Technology', 'Engineering', 'Medicine', 'Law', 'Education', 'Language', 'Literature', 'Business', 'Finance', 'Marketing', 'negro'];
+const BookGenresArray = [
+   'Fiction',
+  'Non-Fiction',
+  'Mystery',
+  'Fantasy',
+  'Science Fiction',
+  'Romance',
+  'Horror',
+  'Thriller',
+  'Historical',
+  'Biography',
+  'Autobiography',
+  'Self-Help',
+  'Cookbook',
+  'Travel',
+  'Poetry',
+  'Graphic Novel',
+  'Art',
+  'History',
+  'Science',
+  'Technology',
+  'Medicine',
+  'Law',
+  'Education',
+  'Psychology',
+  'Business',
+  'Philosophy',
+  'Economics',
+  'Sociology',
+  'Mathematics',
+  'Engineering',
+  'Religion',
+  'Music',
+  'Film',
+  'Theatre',
+  'Dance',
+];
 
 const BookGenres = BookGenresArray.slice().sort();
 
@@ -196,12 +229,24 @@ const openAlert = ref(false)
 
 const openGenre = async (genre: string) => {
   clickedGenre.value = genre;
-  const foundBooks: Array<Book> = await searchBooks(clickedGenre.value);
-  console.log("GENERE LIBRO CLICKED: ", clickedGenre.value);
-  console.log("FOUND BOOKS: ", foundBooks);
+  let foundBooks: Array<Book> = [];
+  let numAttempts = 0;
+
+  while (foundBooks.length < 10 && numAttempts < 10) {
+    foundBooks = await searchBooks(clickedGenre.value);
+    console.log("GENERE LIBRO CLICKED: ", clickedGenre.value);
+    console.log("FOUND BOOKS: ", foundBooks);
+    numAttempts++;
+  }
 
   // Filtra i libri trovati per il genere cliccato
-  const filteredBooks = foundBooks.filter(book => book.genres.includes(clickedGenre.value));
+  const filteredBooks = foundBooks.filter(book => {
+    // Controlla se il genere è incluso nei generi del libro
+    const genreIncluded = book.genres.includes(clickedGenre.value);
+    // Controlla se il genere è incluso nel titolo del libro
+    const genreInTitle = book.title.toLowerCase().includes(genre.toLowerCase());
+    return genreIncluded || genreInTitle; // Include il libro se il genere è incluso nei generi del libro o nel titolo del libro
+  });
 
   // Ordina l'array filtrato in ordine alfabetico per titolo
   filteredBooks.sort((a, b) => a.title.localeCompare(b.title));
@@ -225,6 +270,7 @@ const openGenre = async (genre: string) => {
   // Imposta displayBookPreview a true per visualizzare CardComponent
   displayBookPreview.value = true;
 };
+
 
 
 
