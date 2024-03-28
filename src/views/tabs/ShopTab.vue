@@ -4,6 +4,9 @@
       <ion-toolbar>
         <ion-title>{{ title }}</ion-title>
         <ion-button slot="end" @click="showGenres">Mostra Generi</ion-button>
+        <ion-button class="ion-text-center" @click="displayBookPreview = false; showGenre = false;" slot="start" v-if="displayBookPreview" color="danger">
+          <ion-icon :icon="closeCircle"></ion-icon>
+        </ion-button>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" v-if="!displayBookPreview">
@@ -25,6 +28,7 @@
           <book-list v-if="!showGenre" :books="booksPreview" reorder/>
 
           <ion-grid style="text-align: center; margin-right: 30px" v-else>
+
             <ion-row>
               <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
                 <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }" @click="openGenre(genre)">
@@ -65,7 +69,7 @@ import {
   IonRow,
   IonPopover
 } from '@ionic/vue';
-import {add} from "ionicons/icons";
+import {add, closeCircle} from "ionicons/icons";
 import {inject, onMounted, reactive, Ref, ref} from 'vue';
 import { OverlayEventDetail } from '@ionic/core/components';
 import BookList from "@/components/BookList.vue";
@@ -82,10 +86,6 @@ onMounted(async () => {
   loggedUser.value = await storage.get('user')
 })
 const loggedUser: Ref<LoggedUser | null> = ref(null);
-
-window.onload = () => {
-  console.log(loggedUser.value?.books);
-};
 
 const bookScraperObject = new bookScraper();
 
@@ -107,15 +107,13 @@ const setDisplayBookPreview = (value: boolean) => {
 
 const pushBookToPreview = (book: Book) => {
   booksPreview.value.push(book);
+  displayBookPreview.value = false;
+  showGenre.value = false;
 }
 
 const state = reactive({
   displayBookPreview: false,
 });
-
-
-
-
 
 
 const addBookText = ref("");
