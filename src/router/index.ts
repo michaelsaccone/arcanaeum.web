@@ -5,10 +5,12 @@ import SetFamilyPage from "@/views/SetFamilyPage.vue";
 import IntroSlides from "@/views/IntroPage.vue";
 import AccountPreferencesPage from "@/views/preferences/AccountPreferencesPage.vue";
 import FamilyPreferencesPage from '@/views/preferences/FamilyPreferencesPage.vue';
-import ShopTab from "@/views/tabs/ShopTab.vue";
+import ShopTab from "@/views/tabs/EsploraTab.vue";
 import ComingSoonPage from "@/views/ComingSoonPage.vue";
 import ReadBooksPreferencesPage from '@/views/preferences/ReadBooksPreferencesPage.vue';
 import storage from "@/plugins/storage";
+import EsploraTab from "@/views/tabs/esploraTab/EsploraTab.vue";
+import GenreDetails from "@/views/GenreDetails.vue";
 
 async function protectRoute(to: any, from: any, next: any) {
   const isAuthenticated = await storage.get('isLogged');
@@ -58,6 +60,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/read-books',
     component: ReadBooksPreferencesPage,
+    beforeEnter: protectRoute
+  },
+  {
+    path: '/genre/:name',
+    component: GenreDetails,
+    props: true,
     beforeEnter: protectRoute
   },
   {

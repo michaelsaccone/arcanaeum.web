@@ -4,52 +4,48 @@
       <ion-toolbar>
         <ion-title class="ion-text-center">{{ title }}</ion-title>
         <ion-button slot="end" @click="showGenres">Mostra Generi</ion-button>
-        <ion-button  @click="displayBookPreview = false; showGenre = false;" slot="start" v-if="displayBookPreview" color="danger">
+        <ion-button @click="displayBookPreview = false; showGenre = false;" slot="start" v-if="displayBookPreview"
+                    color="danger">
           <ion-icon :icon="closeCircle"></ion-icon>
         </ion-button>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" v-if="!displayBookPreview">
+    <ion-content :fullscreen="true">
+      <ion-item>
+        <ion-searchbar
+            :debounce="150"
+            @ionChange="searchBooks($event)"
+            placeholder="esplora ..."
+            type="text"
+            id="search-input"
+        />
+      </ion-item>
 
-        <ion-content class="ion-padding">
-          <ion-item>
-            <ion-input
-                id="search-input"
-                label="Titolo, Autore ..."
-                label-placement="stacked"
-                ref="input"
-                type="text"
-                placeholder="Scrivi ..."
-                v-model="addBookText"
-                @change="openGenre(addBookText)"
-            ></ion-input>
-          </ion-item>
+      <card-component :items="books" :clickable="true" :set-display-book-preview="setDisplayBookPreview"
+                      :push-book-to-preview="pushBookToPreview"/>
 
-          <book-list v-if="!showGenre" :books="booksPreview" reorder/>
+      <ion-grid style="text-align: center; margin-right: 30px">
 
-          <ion-grid style="text-align: center; margin-right: 30px" v-else>
+        <ion-row>
+          <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
+            <div class="wrapper ion-activatable ripple-parent rounded-rectangle"
+                 :style="{ backgroundColor: getRandomColor() }" @click="searchBook(genre)">
+              {{ genre }}
+              <ion-ripple-effect></ion-ripple-effect>
+            </div>
+          </ion-col>
 
-            <ion-row>
-              <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
-                <div class="wrapper ion-activatable ripple-parent rounded-rectangle" :style="{ backgroundColor: getRandomColor() }" @click="openGenre(genre)">
-                  {{ genre }}
-                  <ion-ripple-effect></ion-ripple-effect>
-                </div>
-              </ion-col>
+        </ion-row>
+      </ion-grid>
 
-            </ion-row>
-          </ion-grid>
-          <ion-alert
-              trigger="present-alert"
-              header="Nessun Libro Trovato"
-              :is-open="openAlert"
-              @did-dismiss="openAlert = false"
-          ></ion-alert>
-        </ion-content>
+      <ion-alert
+          trigger="present-alert"
+          header="Nessun Libro Trovato"
+          :is-open="openAlert"
+          @did-dismiss="openAlert = false"
+      ></ion-alert>
 
-    </ion-content>
-    <ion-content v-else>
-      <card-component :items="booksPreviewTemp" :clickable="true" :set-display-book-preview="setDisplayBookPreview" :push-book-to-preview="pushBookToPreview" />
+
     </ion-content>
   </ion-page>
 </template>
@@ -60,24 +56,19 @@ import {
   IonPage,
   IonHeader,
   IonToolbar,
+  IonSearchbar,
   IonTitle,
   IonContent,
   IonItem,
-  IonModal,
-  IonFab,
   IonButton,
-  IonButtons,
-  IonInput,
-  IonFabButton,
   IonRippleEffect,
   IonGrid,
   IonCol,
-  IonRow,
-  IonPopover
+  IonRow
 } from '@ionic/vue';
 import {add, closeCircle} from "ionicons/icons";
 import {inject, onMounted, reactive, Ref, ref} from 'vue';
-import { OverlayEventDetail } from '@ionic/core/components';
+import {OverlayEventDetail} from '@ionic/core/components';
 import BookList from "@/components/BookList.vue";
 import Book from "@/models/Book";
 import bookScraper from "@/logic/bookScraper";
@@ -100,7 +91,6 @@ const title = ref('Esplora');
 const openPopover = ref(false);
 
 const modal = ref();
-const input = ref();
 const message = ref('This modal example uses triggers to automatically open a modal when the button is clicked.');
 const showGenre = ref(false);
 const displayBookPreview = ref(false);
@@ -129,7 +119,6 @@ const dismiss = () => {
   modal.value.$el.dismiss();
 };
 
-
 function printCiao() {
   console.log(addBookText.value);
 }
@@ -145,10 +134,11 @@ function onCloseModal() {
   openPopover.value = false;
 }
 
-async function searchBooks(input: string) {
-  console.log("VALORE INPUT \n" + addBookText.value);
+async function searchBooks(event: any) {
+  const query = event.target.value;
+  console.log("Inizio ricerca ... " + query);
   openPopover.value = true;
-  books.value = await bookScraperObject.cercaLibriFinale(input);
+  books.value = await bookScraperObject.findBooksByQuery(query);
   console.log(books.value);
   return books.value
 }
@@ -167,7 +157,7 @@ const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
 };
 
 const BookGenresArray = [
-   'Fiction',
+  'Fiction',
   'Non-Fiction',
   'Mystery',
   'Fantasy',
@@ -227,8 +217,9 @@ const clickedGenre = ref('');
 const openAlert = ref(false)
 
 
-const openGenre = async (genre: string) => {
-  clickedGenre.value = genre;
+const searchBook = async (event: any) => {
+  const query = event.target.value;
+  // clickedGenre.value = genre;
   let foundBooks: Array<Book> = [];
   let numAttempts = 0;
 
@@ -270,10 +261,6 @@ const openGenre = async (genre: string) => {
   // Imposta displayBookPreview a true per visualizzare CardComponent
   displayBookPreview.value = true;
 };
-
-
-
-
 
 
 </script>

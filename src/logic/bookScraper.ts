@@ -2,18 +2,40 @@ import Book from "@/models/Book";
 
 class bookScraper {
 
+    public async getBookByISBN(isbn: string): Promise<Book> {
+        const books = await this.cercaLibri(isbn, 'isbn');
+        return books[0];
+    }
+
+    public async findBooksByQuery(query: string) {
+        const booksByTitle = await this.cercaLibri(query, 'intitle', "");
+        // const booksByAuthor = await this.cercaLibri(query, 'inauthor', "");
+
+        let books: Book[] = [];
+
+        books = booksByTitle
+            .slice(0, 15)
+
+        return books;
+    }
+
+    public async findBooksByGenre(genre: string) {
+        const books = await this.cercaLibri("", "", genre);
+        return books;
+    }
+
     public async cercaLibriFinale(cerca: string, genere?: string): Promise<Book[]> {
         const ricercaISBN = await this.cercaLibri(cerca, 'isbn', genere);
         if (ricercaISBN.length < 1) {
             const ricercaTitolo = await this.cercaLibri(cerca, 'intitle', genere);
             const ricercaAutore = await this.cercaLibri(cerca, 'inauthor', genere);
-            const ricercaGenere = await this.cercaLibri(cerca, 'subject', genere);
             let ricercaFinale: Book[] = [];
             if (ricercaAutore.length <= 2) {
-                ricercaFinale = ricercaTitolo.slice(0, 20 - ricercaAutore.length).concat(ricercaAutore).concat(ricercaGenere.slice(0, 20 - ricercaTitolo.length - ricercaAutore.length));
+                ricercaFinale = ricercaTitolo
+                    .slice(0, 20 - ricercaAutore.length)
+                    .concat(ricercaAutore);
             } else {
-                ricercaFinale = ricercaTitolo.slice(0, 12).concat(ricercaAutore.slice(0, 8).concat(ricercaGenere.slice(0, 20 - ricercaTitolo.length - ricercaAutore.length)));
-                console.log("Titolo: " + JSON.stringify(ricercaTitolo) + "\n\n\nAutore: " + JSON.stringify(ricercaAutore) + "\n\n\nFinale: " + JSON.stringify(ricercaFinale));
+                ricercaFinale = ricercaTitolo.slice(0, 12).concat(ricercaAutore.slice(0, 8));
             }
 
             // Seleziona casualmente un sottoinsieme dei libri ottenuti
