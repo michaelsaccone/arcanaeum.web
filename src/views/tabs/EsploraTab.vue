@@ -29,7 +29,7 @@
         <ion-row>
           <ion-col v-for="genre in BookGenres" :key="genre" size="6" size-md="4" size-lg="3">
             <div class="wrapper ion-activatable ripple-parent rounded-rectangle"
-                 :style="{ backgroundColor: getRandomColor() }" @click="searchBook(genre)">
+                 :style="{ backgroundColor: getRandomColor() }" @click="router.replace('/genre/' + genre)">
               {{ genre }}
               <ion-ripple-effect></ion-ripple-effect>
             </div>
@@ -75,6 +75,7 @@ import bookScraper from "@/logic/bookScraper";
 import LoggedUser from "@/models/LoggedUser";
 import {addBookToShopList} from "@/logic/api.books";
 import CardComponent from "@/components/CardComponent.vue";
+import router from "@/router";
 
 const storage = <Storage>inject('store');
 

@@ -1,21 +1,22 @@
 <script setup lang="ts">
-import {IonPage, IonContent} from "@ionic/vue";
+import {IonPage, IonContent, IonHeader, IonTitle, IonToolbar} from "@ionic/vue";
 import {onMounted, ref, Ref} from "vue";
 import Book from "@/models/Book";
 import BookScraper from "@/logic/bookScraper";
+import { useRoute } from "vue-router";
+import BookList from "@/components/BookList.vue";
 
+const route = useRoute();
 const bookScraper = new BookScraper();
 
-defineProps<{
-  genre: string
-}>()
-
 const books: Ref<Array<Book>> = ref([])
-// TODO: finish
-// (async () => {
-//   books.value = await bookScraper.findBooksByGenre(genre);
-//   console.log(books.value)
-// })
+
+const genre: string = route.params.genre;
+
+onMounted(async () => {
+  books.value = await bookScraper.findBooksByGenre(genre!);
+  console.log(books.value)
+})
 
 // const searchBook = async (event: any) => {
 //   const query = event.target.value;
@@ -65,8 +66,13 @@ const books: Ref<Array<Book>> = ref([])
 
 <template>
 <ion-page>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title class="ion-text-center">{{ route.params.genre }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <ion-content>
-
+    <book-list :books="books" />
   </ion-content>
 </ion-page>
 </template>
