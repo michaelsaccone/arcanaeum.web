@@ -19,9 +19,29 @@ class bookScraper {
         return books;
     }
 
-    public async findBooksByGenre(genre: string) {
-        const books = await this.cercaLibri("", "", genre);
-        return books;
+    public async findByGenre(genreName: string) {
+        let foundBooks: Array<Book> = [];
+
+        foundBooks = await this.findBooksByQuery(genreName);
+
+        // Filtra i libri trovati per il genere cliccato
+        const filteredBooks = foundBooks.filter(book => {
+            // Controlla se il genere è incluso nei generi del libro
+            const genreIncluded = book.genres.includes(genreName);
+            // Controlla se il genere è incluso nel titolo del libro
+            const genreInTitle = book.title.toLowerCase().includes(genreName);
+            return genreIncluded || genreInTitle; // Include il libro se il genere è incluso nei generi del libro o nel titolo del libro
+        });
+
+        // Ordina l'array filtrato in ordine alfabetico per titolo
+        filteredBooks.sort((a, b) => a.title.localeCompare(b.title));
+        // Aggiungi libri dall'array non filtrato se il numero di libri filtrati è inferiore a 10
+        const additionalBooks = foundBooks.filter(book => !filteredBooks.includes(book));
+        const numAdditionalBooks = 10 - filteredBooks.length;
+        const moreBooks = additionalBooks.slice(0, numAdditionalBooks);
+
+        const finalBooks = filteredBooks.concat(moreBooks);
+        return finalBooks
     }
 
     public async cercaLibriFinale(cerca: string, genere?: string): Promise<Book[]> {
