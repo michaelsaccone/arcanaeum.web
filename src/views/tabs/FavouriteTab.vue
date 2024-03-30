@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
 
-      <book-list :books="books" />
+      <book-list :books="books" reorder/>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button id="open-modal" @click="printCiao">
@@ -54,47 +54,19 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import BookList from "@/components/BookList.vue";
 import Book from "@/models/Book";
 import LoggedUser from "@/models/LoggedUser";
-import {onMounted, inject} from "vue";
-
-
-const storage = <Storage>inject('store');
+import {onMounted} from "vue";
+import storage from "@/plugins/storage";
+import {getUserFavouriteBooks} from "@/logic/api.books";
 
 // Codice per ottenere oggetto dallo storage
 onMounted(async () => {
   loggedUser.value = await storage.get('user')
+  console.log(loggedUser.value);
+  books.value = await getUserFavouriteBooks();
 })
 const loggedUser: Ref<LoggedUser | null> = ref(null);
 
-
-const books: Array<Book> = [
-  {
-    title: "Orlando Furioso",
-    author: "Ludovico Arioso",
-    publishYear: "1561",
-    image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
-    isbn: "12313123",
-    description: "YAP YAP YAP",
-    genre: "romanzo, cavalleresco"
-  },
-  {
-    title: "Orlando Yapper",
-    author: "Ludovico Arioso",
-    publishYear: "1561",
-    image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
-    isbn: "12313123",
-    description: "YAP YAP YAP",
-    genre: "romanzo, cavalleresco"
-  },
-  {
-    title: "Orlando Bortolox",
-    author: "Ludovico Arioso",
-    publishYear: "1561",
-    image: "https://m.media-amazon.com/images/I/71wKD46XqjL._AC_UF1000,1000_QL80_.jpg",
-    isbn: "12313123",
-    description: "YAP YAP YAP",
-    genre: "romanzo, cavalleresco"
-  }
-]
+const books: Ref<Array<Book>> = ref<Array<Book>>([]);
 
 const modal = ref();
 const input = ref();

@@ -1,13 +1,11 @@
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
-import { collection, addDoc } from "firebase/firestore";
+import { getDoc, setDoc, doc } from "firebase/firestore";
 import {database} from "@/firebase";
 import { auth } from "@/firebase";
 import {UserCredential} from "firebase/auth";
 import User from "@/models/User";
-import {inject} from "vue";
+import storage from "@/plugins/storage";
 import LoggedUser from "@/models/LoggedUser";
-
-const storage: Storage = <Storage>inject('store');
 
 function getLoggedUser(cred: UserCredential | any): LoggedUser {
     const loggedUser: LoggedUser = {
@@ -17,21 +15,32 @@ function getLoggedUser(cred: UserCredential | any): LoggedUser {
         expirationTime: cred.user.stsTokenManager!.expirationTime,
         refreshToken: cred.user.refreshToken
     };
+    console.log(cred);
     return loggedUser;
 }
 async function classicLogin(email: string, password: string) {
-    const credentials = await signInWithEmailAndPassword(auth, email, password);
-    await storage.set('user', getLoggedUser(credentials))
-    await storage.set('isLogged', true);
-    console.log(await storage.get('user'));
-    return credentials;
+    try {
+        const credentials = await signInWithEmailAndPassword(auth, email, password);
+        await storage.set('user', getLoggedUser(credentials))
+        await storage.set('isLogged', true);
+        const userReference = doc(database, "users", email);
+        // await storage.set('userReference', userReference);
+        return credentials;
+    } catch (err) {
+        console.log("errore durante il login");
+        console.log(err);
+        throw "ERR";
+    }
 }
 
 async function register(name: string, surname: string, email: string, password: string): Promise<UserCredential> {
     const user: User = {
         name,
         surname,
-        email
+        email,
+        books: [],
+        bookShopList: [],
+        favouriteBooks: []
     };
     try {
         const credentials= await createUserWithEmailAndPassword(auth, email, password)
@@ -41,10 +50,13 @@ async function register(name: string, surname: string, email: string, password: 
                 });
                 return result;
             })
-        // salva l'utente sul nostro db firestore
-        await addDoc(collection(database, "users"), user);
+        // salva l'utente sul nostro db firestore con chiave email
+        const userReference = doc(database, "users", user.email);
+        await setDoc(userReference, user);
+        // await addDoc(collection(database, "users"), user);
         await storage.set('user', getLoggedUser(credentials))
         await storage.set('isLogged', true);
+        // await storage.set('userReference', userReference);
         console.log(await storage.get('user'));
         return credentials;
     } catch (error) {

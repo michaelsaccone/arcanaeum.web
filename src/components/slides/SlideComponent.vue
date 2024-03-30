@@ -55,8 +55,11 @@ defineProps({
 
 .text {
   text-align: center;
-  margin-bottom: 2vh;
+  margin-bottom: 6vh;
+  margin-left: 6vw;
+  margin-right: 6vw;
+  color: mintcream;
   font-family: 'Segoe UI Semibold';
-  font-size: 2vh;
+  font-size: 2.3vh;
 }
 </style>

@@ -1,3 +1,4 @@
+import Book from "@/models/Book";
 
 interface LoggedUser {
     name: string;

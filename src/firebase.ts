@@ -25,4 +25,5 @@ export const analytics = isSupported().then(yes => yes ? getAnalytics(app) : nul
 export const auth = getAuth(app);
 export const database: Firestore = getFirestore(app);
 
+
 export default app;
