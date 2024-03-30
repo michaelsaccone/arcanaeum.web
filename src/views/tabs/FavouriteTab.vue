@@ -62,12 +62,11 @@ import {getUserFavouriteBooks} from "@/logic/api.books";
 onMounted(async () => {
   loggedUser.value = await storage.get('user')
   console.log(loggedUser.value);
+  books.value = await getUserFavouriteBooks();
 })
 const loggedUser: Ref<LoggedUser | null> = ref(null);
 
-const books: () => Promise<Array<Book>> = async () => {
-  return await getUserFavouriteBooks();
-}
+const books: Ref<Array<Book>> = ref<Array<Book>>([]);
 
 const modal = ref();
 const input = ref();

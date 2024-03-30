@@ -14,7 +14,7 @@ const books: Ref<Array<Book>> = ref([])
 const genre = ref(route.params.name);
 
 onMounted(async () => {
-  books.value = await bookScraper.findByGenre(genre.value!);
+  books.value = await bookScraper.findByGenre(genre.value.toString());
   console.log(books.value)
 })
 </script>
